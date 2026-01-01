@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='介绍 redis默认安装了命令行工具 redis-cli 查看对应数据类型的帮助文档 #查看通用的命令 help @generic help @string help @hash help @list help @set #查看命令 help KEYS help SADD ... Redis通用命令 通用'>
+<title>redis基础</title>
+
+<link rel='canonical' href='https://wushengyouya.github.io/p/redis%E5%9F%BA%E7%A1%80/'>
+
+<link rel="stylesheet" href="../../scss/style.min.4b0eac42a68e0a3548daa75c0ea06b5b77a0ac03a212a6bbe41eb5846cbcb5c6.css"><meta property='og:title' content='redis基础'>
+<meta property='og:description' content='介绍 redis默认安装了命令行工具 redis-cli 查看对应数据类型的帮助文档 #查看通用的命令 help @generic help @string help @hash help @list help @set #查看命令 help KEYS help SADD ... Redis通用命令 通用'>
+<meta property='og:url' content='https://wushengyouya.github.io/p/redis%E5%9F%BA%E7%A1%80/'>
+<meta property='og:site_name' content='吴生有涯'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='redis' /><meta property='article:published_time' content='2023-02-17T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2023-02-17T00:00:00&#43;00:00'/><meta property='og:image' content='https://wushengyouya.github.io/p/redis%E5%9F%BA%E7%A1%80/image.png' />
+<meta name="twitter:title" content="redis基础">
+<meta name="twitter:description" content="介绍 redis默认安装了命令行工具 redis-cli 查看对应数据类型的帮助文档 #查看通用的命令 help @generic help @string help @hash help @list help @set #查看命令 help KEYS help SADD ... Redis通用命令 通用"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://wushengyouya.github.io/p/redis%E5%9F%BA%E7%A1%80/image.png' />
+    <link rel="shortcut icon" href="../../img/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "light");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="../../">
+                
+                    
+                    
+                    
+                        
+                        <img src="../../img/avatar_hu6884e68a33b95cdefc80892295f86f1e_979017_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="../../">吴生有涯</a></h1>
+            <h2 class="site-description">落霞与孤鹜齐飞</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href=''
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='../../index.xml'
+                        target="_blank"
+                        title="RSS"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="5" cy="19" r="1" />
+  <path d="M4 4a16 16 0 0 1 16 16" />
+  <path d="M4 11a9 9 0 0 1 9 9" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='../../' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#介绍">介绍</a></li>
+    <li><a href="#redis通用命令">Redis通用命令</a></li>
+    <li><a href="#string类型">String类型</a>
+      <ol>
+        <li><a href="#string类型常见命令">String类型常见命令</a></li>
+        <li><a href="#key的结构">Key的结构</a></li>
+      </ol>
+    </li>
+    <li><a href="#hash类型">Hash类型</a>
+      <ol>
+        <li><a href="#hash类型常见命令">Hash类型常见命令</a></li>
+      </ol>
+    </li>
+    <li><a href="#list类型">List类型</a>
+      <ol>
+        <li><a href="#list类型常见命令">List类型常见命令</a></li>
+      </ol>
+    </li>
+    <li><a href="#set类型">Set类型</a>
+      <ol>
+        <li><a href="#set类型常见命令">Set类型常见命令</a></li>
+      </ol>
+    </li>
+    <li><a href="#sortedset类型">SortedSet类型</a>
+      <ol>
+        <li><a href="#sortedset类型的常见命令">SortedSet类型的常见命令</a></li>
+      </ol>
+    </li>
+    <li><a href="#持久化">持久化</a>
+      <ol>
+        <li><a href="#aofappend-only-file">AOF(append-only file)</a></li>
+        <li><a href="#rdb">RDB</a></li>
+      </ol>
+    </li>
+    <li><a href="#集群">集群</a>
+      <ol>
+        <li><a href="#主从复制">主从复制</a></li>
+        <li><a href="#哨兵">哨兵</a></li>
+      </ol>
+    </li>
+    <li><a href="#cluster">Cluster</a></li>
+    <li><a href="#过期删除">过期删除</a></li>
+    <li><a href="#缓存穿透">缓存穿透</a></li>
+    <li><a href="#缓存雪崩">缓存雪崩</a></li>
+    <li><a href="#缓存一致性">缓存一致性</a></li>
+    <li><a href="#缓存击穿">缓存击穿</a></li>
+    <li><a href="#分布式事务">分布式事务</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    
+<header class="article-header">
+        <div class="article-image">
+            <a href="../../p/redis%E5%9F%BA%E7%A1%80/">
+                
+                    <img src="../../p/redis%E5%9F%BA%E7%A1%80/image.png"
+                        
+                        width="2537" 
+                        height="1317" 
+                        loading="lazy"
+                        alt="Featured image of post redis基础" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="../../categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" >
+                数据库
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="../../p/redis%E5%9F%BA%E7%A1%80/">redis基础</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2023/02/17</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 9 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="介绍">介绍</h2>
+<p>redis默认安装了命令行工具</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">    redis-cli
+</span></span></code></pre></div><p>查看对应数据类型的帮助文档</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">    <span class="c1">#查看通用的命令</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">help</span> @generic
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nb">help</span> @string
+</span></span><span class="line"><span class="cl">    <span class="nb">help</span> @hash
+</span></span><span class="line"><span class="cl">    <span class="nb">help</span> @list
+</span></span><span class="line"><span class="cl">    <span class="nb">help</span> @set
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">#查看命令</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">help</span> KEYS
+</span></span><span class="line"><span class="cl">    <span class="nb">help</span> SADD
+</span></span><span class="line"><span class="cl">    ...
+</span></span></code></pre></div><h2 id="redis通用命令">Redis通用命令</h2>
+<p><img src="../../p/redis%E5%9F%BA%E7%A1%80/image.png"
+	width="2537"
+	height="1317"
+	srcset="../../p/redis%E5%9F%BA%E7%A1%80/image_hu6eac9c1cdd8266423c453f3a6e08ac78_1058911_480x0_resize_box_3.png 480w, ../../p/redis%E5%9F%BA%E7%A1%80/image_hu6eac9c1cdd8266423c453f3a6e08ac78_1058911_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="192"
+		data-flex-basis="462px"
+	
+>
+通用命令是不分数据类型的，都可以使用的命令。通过help [command]可以查看命令的具体用法</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">    <span class="c1">#KEYS:查看符合模版的所有Key</span>
+</span></span><span class="line"><span class="cl">    KEYS *
+</span></span><span class="line"><span class="cl">    <span class="c1">#DEL:删除一个指定的key</span>
+</span></span><span class="line"><span class="cl">    DEL name
+</span></span><span class="line"><span class="cl">    <span class="c1">#EXIST:判断key是否存在</span>
+</span></span><span class="line"><span class="cl">    EXISTS name 
+</span></span><span class="line"><span class="cl">    <span class="c1">#EXPIRE:给一个key设置有效期,有效期到期时该key会被自动删除</span>
+</span></span><span class="line"><span class="cl">    EXPIRE name <span class="m">10</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#TTL:查看一个key的剩余有效期</span>
+</span></span><span class="line"><span class="cl">    TTL name
+</span></span></code></pre></div><h2 id="string类型">String类型</h2>
+<p><img src="../../p/redis%E5%9F%BA%E7%A1%80/image-1.png"
+	width="2463"
+	height="1229"
+	srcset="../../p/redis%E5%9F%BA%E7%A1%80/image-1_hu48315add891243d265ccbf723fcc3c98_577789_480x0_resize_box_3.png 480w, ../../p/redis%E5%9F%BA%E7%A1%80/image-1_hu48315add891243d265ccbf723fcc3c98_577789_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="200"
+		data-flex-basis="480px"
+	
+></p>
+<h3 id="string类型常见命令">String类型常见命令</h3>
+<p><img src="../../p/redis%E5%9F%BA%E7%A1%80/image-2.png"
+	width="1918"
+	height="1121"
+	srcset="../../p/redis%E5%9F%BA%E7%A1%80/image-2_hu416774d36bde16f7a1c9b7250b1f96b6_737014_480x0_resize_box_3.png 480w, ../../p/redis%E5%9F%BA%E7%A1%80/image-2_hu416774d36bde16f7a1c9b7250b1f96b6_737014_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="171"
+		data-flex-basis="410px"
+	
+></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">  <span class="c1">#设置键name值为lisi</span>
+</span></span><span class="line"><span class="cl">  SET name lisi
+</span></span><span class="line"><span class="cl">  <span class="c1">#获取键的值</span>
+</span></span><span class="line"><span class="cl">  GET name
+</span></span><span class="line"><span class="cl">  <span class="c1">#删除</span>
+</span></span><span class="line"><span class="cl">  DEL name
+</span></span><span class="line"><span class="cl">  <span class="c1">#查看所有键</span>
+</span></span><span class="line"><span class="cl">  KEY *
+</span></span><span class="line"><span class="cl">  <span class="c1">#自增key的值</span>
+</span></span><span class="line"><span class="cl">  INCR age
+</span></span></code></pre></div><h3 id="key的结构">Key的结构</h3>
+<p><img src="../../p/redis%E5%9F%BA%E7%A1%80/image-3.png"
+	width="2120"
+	height="1268"
+	srcset="../../p/redis%E5%9F%BA%E7%A1%80/image-3_hu4a903895e20b8c502de5345a2109411e_903937_480x0_resize_box_3.png 480w, ../../p/redis%E5%9F%BA%E7%A1%80/image-3_hu4a903895e20b8c502de5345a2109411e_903937_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="167"
+		data-flex-basis="401px"
+	
+></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">  SET heima:user:1 name jack
+</span></span><span class="line"><span class="cl">  SET heima:user:1 age <span class="m">12</span>
+</span></span></code></pre></div><h2 id="hash类型">Hash类型</h2>
+<p><img src="../../p/redis%E5%9F%BA%E7%A1%80/image-4.png"
+	width="2478"
+	height="1606"
+	srcset="../../p/redis%E5%9F%BA%E7%A1%80/image-4_hu3ab107391f46867439a994f56c3bb8a0_954298_480x0_resize_box_3.png 480w, ../../p/redis%E5%9F%BA%E7%A1%80/image-4_hu3ab107391f46867439a994f56c3bb8a0_954298_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="154"
+		data-flex-basis="370px"
+	
+></p>
+<h3 id="hash类型常见命令">Hash类型常见命令</h3>
+<p><img src="../../p/redis%E5%9F%BA%E7%A1%80/image-5.png"
+	width="1520"
+	height="796"
+	srcset="../../p/redis%E5%9F%BA%E7%A1%80/image-5_hudc3682a37cb0400143839a27b8c66507_379288_480x0_resize_box_3.png 480w, ../../p/redis%E5%9F%BA%E7%A1%80/image-5_hudc3682a37cb0400143839a27b8c66507_379288_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="190"
+		data-flex-basis="458px"
+	
+></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">  HSET heima:user:1 name jack
+</span></span><span class="line"><span class="cl">  HGET heima:user:1
+</span></span><span class="line"><span class="cl">  <span class="c1">#设置多个值</span>
+</span></span><span class="line"><span class="cl">  HMSET heima:user:2 name lisi age <span class="m">12</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#获取多个值</span>
+</span></span><span class="line"><span class="cl">  HMGET heima:user:2 name age
+</span></span><span class="line"><span class="cl">  HKEYS heima:user:2
+</span></span><span class="line"><span class="cl">  <span class="c1">#删除</span>
+</span></span><span class="line"><span class="cl">  HDEL heima:user:1
+</span></span></code></pre></div><h2 id="list类型">List类型</h2>
+<p><img src="../../p/redis%E5%9F%BA%E7%A1%80/image-6.png"
+	width="3021"
+	height="1166"
+	srcset="../../p/redis%E5%9F%BA%E7%A1%80/image-6_hu0540729f971b0fbbda1c963219751b5f_556116_480x0_resize_box_3.png 480w, ../../p/redis%E5%9F%BA%E7%A1%80/image-6_hu0540729f971b0fbbda1c963219751b5f_556116_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="259"
+		data-flex-basis="621px"
+	
+></p>
+<h3 id="list类型常见命令">List类型常见命令</h3>
+<p><img src="../../p/redis%E5%9F%BA%E7%A1%80/image-7.png"
+	width="2675"
+	height="1168"
+	srcset="../../p/redis%E5%9F%BA%E7%A1%80/image-7_huf6291c8a714ff2790d51498bc142b019_856017_480x0_resize_box_3.png 480w, ../../p/redis%E5%9F%BA%E7%A1%80/image-7_huf6291c8a714ff2790d51498bc142b019_856017_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="229"
+		data-flex-basis="549px"
+	
+></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">  <span class="c1">#插入多个值</span>
+</span></span><span class="line"><span class="cl">  LPUSH  heima:list:1 v1 v2 v3 v4
+</span></span><span class="line"><span class="cl">  <span class="c1">#从右边取出一个值并清除缓存的数据</span>
+</span></span><span class="line"><span class="cl">  RPOP heima:list:1
+</span></span><span class="line"><span class="cl">  <span class="c1">#等待指定时间取值</span>
+</span></span><span class="line"><span class="cl">  BLPOP heima:list:1 <span class="m">10</span>
+</span></span></code></pre></div><h2 id="set类型">Set类型</h2>
+<p><img src="../../p/redis%E5%9F%BA%E7%A1%80/image-8.png"
+	width="2616"
+	height="770"
+	srcset="../../p/redis%E5%9F%BA%E7%A1%80/image-8_hu663a5245ffb082370d7703a920a8803b_310607_480x0_resize_box_3.png 480w, ../../p/redis%E5%9F%BA%E7%A1%80/image-8_hu663a5245ffb082370d7703a920a8803b_310607_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="339"
+		data-flex-basis="815px"
+	
+></p>
+<h3 id="set类型常见命令">Set类型常见命令</h3>
+<p><img src="../../p/redis%E5%9F%BA%E7%A1%80/image-9.png"
+	width="3106"
+	height="1446"
+	srcset="../../p/redis%E5%9F%BA%E7%A1%80/image-9_hu218fef19aa72c5e4172bff37789d9718_1354696_480x0_resize_box_3.png 480w, ../../p/redis%E5%9F%BA%E7%A1%80/image-9_hu218fef19aa72c5e4172bff37789d9718_1354696_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="214"
+		data-flex-basis="515px"
+	
+></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">  SADD s1 v1 v2 v3
+</span></span><span class="line"><span class="cl">  SREM s1 v1
+</span></span><span class="line"><span class="cl">  SCARD s1
+</span></span><span class="line"><span class="cl">  SMEMBERS S1
+</span></span></code></pre></div><h2 id="sortedset类型">SortedSet类型</h2>
+<p><img src="../../p/redis%E5%9F%BA%E7%A1%80/image-10.png"
+	width="1831"
+	height="614"
+	srcset="../../p/redis%E5%9F%BA%E7%A1%80/image-10_hufdba5fc3f44efb137b1d7be7bdf647c6_260929_480x0_resize_box_3.png 480w, ../../p/redis%E5%9F%BA%E7%A1%80/image-10_hufdba5fc3f44efb137b1d7be7bdf647c6_260929_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="298"
+		data-flex-basis="715px"
+	
+></p>
+<h3 id="sortedset类型的常见命令">SortedSet类型的常见命令</h3>
+<ul>
+<li>倒序</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">  ZADD stus <span class="m">85</span> jack <span class="m">89</span> lucy <span class="m">82</span> rose <span class="m">95</span> tom <span class="m">78</span> jerry <span class="m">92</span> amy <span class="m">76</span> miles
+</span></span><span class="line"><span class="cl">  ZREM tom
+</span></span><span class="line"><span class="cl">  ZREVRANGE stus <span class="m">0</span> <span class="m">2</span>
+</span></span><span class="line"><span class="cl">  ZCOUNT stus <span class="m">0</span> <span class="m">80</span>
+</span></span><span class="line"><span class="cl">  ZINCRBY stus <span class="m">1</span> jack
+</span></span><span class="line"><span class="cl">  ZRANGE stus <span class="m">0</span> <span class="m">2</span>
+</span></span></code></pre></div><p><img src="../../p/redis%E5%9F%BA%E7%A1%80/image-11.png"
+	width="1700"
+	height="848"
+	srcset="../../p/redis%E5%9F%BA%E7%A1%80/image-11_hu842bd3f3447dc5fd5428fe8126ba7977_533859_480x0_resize_box_3.png 480w, ../../p/redis%E5%9F%BA%E7%A1%80/image-11_hu842bd3f3447dc5fd5428fe8126ba7977_533859_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="200"
+		data-flex-basis="481px"
+	
+></p>
+<h2 id="持久化">持久化</h2>
+<h3 id="aofappend-only-file">AOF(append-only file)</h3>
+<p>用于将redis服务器接收到的写命令追加的文件末尾。AOF是一个文本文件，包含了Redis服务器接收到的写序列，
+以及这些命令所产生的数据变更。</p>
+<ul>
+<li>追加写入：AOF文件采用追加写入的方式记录命令，不会覆盖原有数据，因此更加安全，可以避免数据丢失。</li>
+<li>可读性</li>
+<li>部分恢复：可以根据需要选择部分恢复，而不是向RDB文件那样只能进行全量恢复。</li>
+<li>实时性：实时记录Redis服务器接收的写命令，因此可以实现比RDB更精确的持久化。</li>
+</ul>
+<p>使用方式</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">AOF 持久化方式可以通过配置文件中的appendonly参数进行开启和关闭，默认情况下是关闭的。
+</span></span><span class="line"><span class="cl">当开启 AOF 持久化后，Redis 服务器会在接收到写命令后将命令追加到 AOF 文件末尾，以保
+</span></span><span class="line"><span class="cl">证数据持久化。在启动 Redis 服务器时，如果存在 AOF 文件，则会根据文件内容重建数据。
+</span></span><span class="line"><span class="cl">同时，Redis 服务器会定期对AOF 文件进行重写，以减少文件大小和提高读写效率。
+</span></span></code></pre></div><h3 id="rdb">RDB</h3>
+<p>用于将Redis内存中的数据以快照的形式保存到硬盘上的二进制文件。RDB文件包含了Redis在某个时间点的数据快照。</p>
+<ul>
+<li>全量备份</li>
+<li>恢复时间较长</li>
+</ul>
+<p>使用方式</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">RDB 持久化方式可以通过配置文件中的 save 参数进行启用和设置备份策略。同时，Redis 服务器还提供了 
+</span></span><span class="line"><span class="cl">SAVE 和 BGSAVE 命令用于手动触发备份操作，其中 SAVE 命令会阻塞 Redis 服务器的其他操作直到备份
+</span></span><span class="line"><span class="cl">完成，而 BGSAVE 命令会在后台进行备份，不会阻塞其他操作。
+</span></span></code></pre></div><h2 id="集群">集群</h2>
+<h3 id="主从复制">主从复制</h3>
+<p>Redis 的主从复制（Master-Slave Replication）是一种数据复制机制，用于将一个 Redis 实例（主节点）的
+数据复制到多个其他 Redis 实例（从节点）上，从而实现数据的备份、读写分离和提高系统的可用性。</p>
+<ul>
+<li>主从复制是异步的，即主节点执行写操作后，并不会立即通知从节点进行同步，而是在稍后的某个时间点进行同步。</li>
+</ul>
+<ol>
+<li>数据备份和容灾</li>
+<li>读写分离：主节点负责处理写操作，而从节点可以处理读操作</li>
+<li>扩展性</li>
+<li>实时数据分析：可以通过节点进行实时数据分析，而不影响主节点的性能</li>
+</ol>
+<h3 id="哨兵">哨兵</h3>
+<p>Redis 哨兵（Sentinel）是一种用于监控和管理 Redis 主从复制集群的组件，它负责监控 Redis 服务器的健康状态，
+并在主节点发生故障时自动进行故障转移，以确保系统的高可用性和可靠性。哨兵通常以独立的进程运行，与 Redis 服
+务器分开部署，可以部署多个哨兵构成哨兵集群。</p>
+<ol>
+<li>监控： 哨兵定期向 Redis 服务器发送 PING 命令检查服务器的健康状态，包括主节点和从节点。如果主节点或从
+节点无法响应哨兵的请求，哨兵会将该节点标记为不可用。</li>
+</ol>
+<p>2.故障检测： 哨兵会根据配置文件中设置的主从关系和监控频率来监测 Redis 服务器的健康状态。当主节点不可用时，
+哨兵会尝试选举一个新的主节点，并将从节点切换到新的主节点上。</p>
+<p>3.故障转移： 当主节点发生故障时，哨兵会自动进行故障转移操作，选择一个从节点作为新的主节点，并通知其他从节
+点切换到新的主节点上。故障转移过程中可以保证系统的持续可用性和数据一致性。</p>
+<h2 id="cluster">Cluster</h2>
+<p>Redis Cluster 是 Redis 提供的一种分布式部署方式，用于将多个 Redis 节点组成一个集群，实现数据的分片存储
+和高可用性。</p>
+<p>1.分片存储： Redis Cluster 将数据分成多个片段（slot），每个片段被分配到集群中的不同节点上进行存储。通过
+分片存储可以实现数据的水平扩展，提高了系统的吞吐量和存储容量。</p>
+<p>2.高可用性：当主节点发生故障时可以自动进行故障转移，选举一个从节点作为新的主节点，保证了系统的持续可用性。</p>
+<p>3.自动化管理：自动的节点发现和配置管理，当新的节点加入集群或者节点发生故障时，集群会自动进行节点的重新配
+置和重新分配数据。</p>
+<p>4.内部通信：使用内部通信协议进行节点之间的通信，保证了通信的安全性和可靠性，同时也提高了通信的效率。</p>
+<p>5.数据一致性：Redis Cluster 使用基于哈希槽的分片机制来保证数据的一致性，每个键值对都会被映射到一个特定
+的哈希槽上进行存储，同一个哈希槽的数据被存储在集群中的同一个节点上。</p>
+<p>6.负载均衡： Redis Cluster 支持客户端的智能路由，根据键的哈希值将请求路由到相应的节点上进行处理，实现了
+负载均衡和数据的均匀分布。</p>
+<h2 id="过期删除">过期删除</h2>
+<ul>
+<li>
+<p>定时删除(TTL)：对每个键值设置过期时间，当键值对的过期时间到达时，执行自动删除。</p>
+</li>
+<li>
+<p>惰性删除：客服端尝试读取一个已经过期的键值对时，Redis会检查过期时间，如果过期则将其删除，并返回空值给客服端。</p>
+</li>
+<li>
+<p>定期删除：Redis会周期性(默认每秒检查10次)的随机选择一些过期键值对进行检查各删除。(Redis 中的过期删除是以键
+值对为单位进行的，而不是以字段或集合为单位。当键值对被删除时，如果这个键是一个哈希表的字段，那么哈希表中的字段
+也会被删除。如果键是一个集合或列表，那么集合或列表也会被删除)</p>
+</li>
+</ul>
+<h2 id="缓存穿透">缓存穿透</h2>
+<p>Redis 缓存穿透是指恶意用户请求一个不存在于缓存和数据库中的数据，导致每次请求都直接访问数据库，从而给数据库带来巨
+大的压力。为了避免缓存穿透，可以在查询数据库之前进行一些判断，比如使用布隆过滤器或者设置一个空值缓存。</p>
+<p>使用布隆过滤器来判断请求的键是否合法，如果不合法则直接返回空值，避免访问数据库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/willf/bloom&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;sync&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">cache</span>       <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">cacheMutex</span>  <span class="nx">sync</span><span class="p">.</span><span class="nx">RWMutex</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">filter</span>      <span class="o">*</span><span class="nx">bloom</span><span class="p">.</span><span class="nx">BloomFilter</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">filterMutex</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// 初始化布隆过滤器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">filterMutex</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">filter</span> <span class="p">=</span> <span class="nx">bloom</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="mi">1000000</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">filterMutex</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// 模拟缓存数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">cache</span><span class="p">[</span><span class="s">&#34;key1&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;value1&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">cache</span><span class="p">[</span><span class="s">&#34;key2&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;value2&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">cache</span><span class="p">[</span><span class="s">&#34;key3&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;value3&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// 模拟数据库查询函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">dbQuery</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">key</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Querying database for key:&#34;</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// 此处应该是真正的数据库查询操作
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">return</span> <span class="s">&#34;value from database&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// 查询函数包装，用于缓存穿透检测
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">queryWithCache</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">key</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">cacheMutex</span><span class="p">.</span><span class="nf">RLock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">value</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">cache</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">cacheMutex</span><span class="p">.</span><span class="nf">RUnlock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// 检查缓存中是否存在该键
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">if</span> <span class="nx">ok</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">value</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// 检查布隆过滤器是否存在该键
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">filterMutex</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">exists</span> <span class="o">:=</span> <span class="nx">filter</span><span class="p">.</span><span class="nf">Test</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">key</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">filterMutex</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="p">!</span><span class="nx">exists</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="c1">// 如果布隆过滤器中不存在该键，直接返回空值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="k">return</span> <span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// 查询数据库
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">value</span> <span class="p">=</span> <span class="nf">dbQuery</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// 将查询结果放入缓存
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">cacheMutex</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">cache</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="p">=</span> <span class="nx">value</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">cacheMutex</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">value</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// 测试查询函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">key</span> <span class="o">:=</span> <span class="s">&#34;key4&#34;</span> <span class="c1">// 不存在于缓存和数据库中的键
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">value</span> <span class="o">:=</span> <span class="nf">queryWithCache</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">value</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Key&#34;</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="s">&#34;not found&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Value for key&#34;</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="s">&#34;is&#34;</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="缓存雪崩">缓存雪崩</h2>
+<p>Redis 缓存雪崩是指在某个时间点，大量的缓存同时失效，导致大量的请求直接访问数据库，给数据库带来了巨大的压力，
+甚至导致数据库崩溃。</p>
+<p>采取策略：</p>
+<p>1.缓存失效时间随机化：设置缓存失效时间时，可以加入一个随机因子，使得缓存失效时间在一个时间范围内随机分布，
+避免大量缓存同时失效。</p>
+<p>2.缓存预加载：提前异步加载缓存数据，确保缓存数据的及时更新</p>
+<p>3.限流和熔断：请求进行限流和熔断，控制并发请求的数量，避免大量请求同时访问数据库。可以使用一些开源的限流组
+件，比如 github.com/uber-go/ratelimit。</p>
+<p>4.多级缓存:本地缓存（内存）、分布式缓存（Redis）、CDN 缓存</p>
+<p>案例设置缓存失效时间的随机因子来避免缓存雪崩</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;math/rand&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;sync&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">cache</span>      <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">cacheMutex</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">RWMutex</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">rand</span><span class="p">.</span><span class="nf">Seed</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">().</span><span class="nf">UnixNano</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// 模拟缓存数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">cache</span><span class="p">[</span><span class="s">&#34;key1&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;value1&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">cache</span><span class="p">[</span><span class="s">&#34;key2&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;value2&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">cache</span><span class="p">[</span><span class="s">&#34;key3&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;value3&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// 查询函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">queryWithCache</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">key</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">cacheMutex</span><span class="p">.</span><span class="nf">RLock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">value</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">cache</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">cacheMutex</span><span class="p">.</span><span class="nf">RUnlock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">ok</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">value</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// 模拟数据库查询函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">dbQuery</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">key</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Querying database for key:&#34;</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="c1">// 此处应该是真正的数据库查询操作
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="k">return</span> <span class="s">&#34;value from database&#34;</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// 查询数据库
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">value</span> <span class="p">=</span> <span class="nf">dbQuery</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// 将查询结果放入缓存，并设置随机的失效时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">cacheMutex</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">cache</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="p">=</span> <span class="nx">value</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">cacheMutex</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// 设置缓存失效时间，范围为 5-10 分钟
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">expire</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Duration</span><span class="p">(</span><span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span><span class="o">+</span><span class="mi">300</span><span class="p">)</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">time</span><span class="p">.</span><span class="nf">AfterFunc</span><span class="p">(</span><span class="nx">expire</span><span class="p">,</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">cacheMutex</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">			<span class="nb">delete</span><span class="p">(</span><span class="nx">cache</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">cacheMutex</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Cache for key&#34;</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="s">&#34;expired&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">value</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// 模拟并发请求
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">go</span> <span class="kd">func</span><span class="p">(</span><span class="nx">index</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">key</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;key%d&#34;</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">value</span> <span class="o">:=</span> <span class="nf">queryWithCache</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Value for key&#34;</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="s">&#34;is&#34;</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}(</span><span class="nx">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// 等待所有请求完成
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="缓存一致性">缓存一致性</h2>
+<p>1.写后更新（Write-Through）：数据写入缓存之前先更新数据库</p>
+<p>2.读写时更新（Read-Through）：数据读取时先检查缓存，如果缓存中存在则直接返回缓存数据，否则从数据
+库中读取数据并更新缓存</p>
+<p>3.写后刷新（Write-Behind）:数据写入数据库后异步更新缓存，即先更新数据库，再异步更新缓存。</p>
+<p>4.双写一致性（Dual Writing）：数据写入数据库后同时更新缓存，然后返回结果</p>
+<h2 id="缓存击穿">缓存击穿</h2>
+<p>Redis 缓存击穿是指某个热点数据突然失效或者缓存中不存在，导致大量的请求直接访问数据库，给数据库带
+来了巨大的压力。</p>
+<p>采取措施:</p>
+<ul>
+<li>使用互斥锁：当缓存失效时，只允许一个请求访问数据库，其他请求等待该请求完成后再从缓存中获取数据。
+可以使用 Go 语言的 sync.Mutex 来实现互斥锁。</li>
+<li>使用分布式锁：使用分布式锁来确保只有一个请求访问数据库，其他请求等待锁释放后再从缓存中获取数据。</li>
+<li>提前异步加载缓存数据</li>
+</ul>
+<p>使用互斥锁</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;sync&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">cache</span>      <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">cacheMutex</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// 模拟缓存数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">cache</span><span class="p">[</span><span class="s">&#34;key1&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;value1&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">cache</span><span class="p">[</span><span class="s">&#34;key2&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;value2&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">cache</span><span class="p">[</span><span class="s">&#34;key3&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;value3&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// 查询函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">queryWithCache</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">key</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">cacheMutex</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="k">defer</span> <span class="nx">cacheMutex</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// 检查缓存中是否存在该键
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">value</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">cache</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">ok</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">value</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// 模拟数据库查询函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">dbQuery</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">key</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Querying database for key:&#34;</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="c1">// 此处应该是真正的数据库查询操作
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="k">return</span> <span class="s">&#34;value from database&#34;</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// 查询数据库
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">value</span> <span class="p">=</span> <span class="nf">dbQuery</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// 将查询结果放入缓存
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">cache</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="p">=</span> <span class="nx">value</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">value</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// 模拟并发请求
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">go</span> <span class="kd">func</span><span class="p">(</span><span class="nx">index</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">key</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;key%d&#34;</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">value</span> <span class="o">:=</span> <span class="nf">queryWithCache</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Value for key&#34;</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="s">&#34;is&#34;</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}(</span><span class="nx">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// 等待所有请求完成
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>使用分布式锁</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;context&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/go-redis/redis/v8&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">acquireLock</span><span class="p">(</span><span class="nx">client</span> <span class="o">*</span><span class="nx">redis</span><span class="p">.</span><span class="nx">Client</span><span class="p">,</span> <span class="nx">lockKey</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">expiration</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">ctx</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// 设置分布式锁，当且仅当 lockKey 不存在时设置成功
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">ok</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nf">SetNX</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">lockKey</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">expiration</span><span class="p">).</span><span class="nf">Result</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Failed to acquire lock:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">ok</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">releaseLock</span><span class="p">(</span><span class="nx">client</span> <span class="o">*</span><span class="nx">redis</span><span class="p">.</span><span class="nx">Client</span><span class="p">,</span> <span class="nx">lockKey</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">ctx</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// 删除分布式锁
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nf">Del</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">lockKey</span><span class="p">).</span><span class="nf">Result</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Failed to release lock:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// 初始化 Redis 客户端
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">client</span> <span class="o">:=</span> <span class="nx">redis</span><span class="p">.</span><span class="nf">NewClient</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">redis</span><span class="p">.</span><span class="nx">Options</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">Addr</span><span class="p">:</span>     <span class="s">&#34;localhost:6379&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">Password</span><span class="p">:</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="c1">// set your password
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">DB</span><span class="p">:</span>       <span class="mi">0</span><span class="p">,</span>  <span class="c1">// use default DB
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// 设置锁键和过期时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">lockKey</span> <span class="o">:=</span> <span class="s">&#34;my_lock&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">expiration</span> <span class="o">:=</span> <span class="mi">5</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// 尝试获取分布式锁
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">if</span> <span class="nf">acquireLock</span><span class="p">(</span><span class="nx">client</span><span class="p">,</span> <span class="nx">lockKey</span><span class="p">,</span> <span class="nx">expiration</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">defer</span> <span class="nf">releaseLock</span><span class="p">(</span><span class="nx">client</span><span class="p">,</span> <span class="nx">lockKey</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Lock acquired, do something...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// 在锁内执行需要保护的代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Failed to acquire lock, another process is holding it&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="分布式事务">分布式事务</h2>
+<p>分布式事务指的是在 Redis 中执行的一组命令，这些命令要么全部执行成功，要么全部执行
+失败，类似于数据库中的事务。Redis 使用 MULTI 和 EXEC 命令来实现分布式事务。</p>
+<ul>
+<li>MULTI 命令用于开启一个事务</li>
+<li>EXEC 命令用于执行事务队列中的命令</li>
+<li>DISCARD 命令用于取消事务</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">127.0.0.1:6379&gt; MULTI
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">127.0.0.1:6379&gt; SET key1 value1
+</span></span><span class="line"><span class="cl">QUEUED
+</span></span><span class="line"><span class="cl">127.0.0.1:6379&gt; SET key2 value2
+</span></span><span class="line"><span class="cl">QUEUED
+</span></span><span class="line"><span class="cl">127.0.0.1:6379&gt; SET key3 value3
+</span></span><span class="line"><span class="cl">QUEUED
+</span></span><span class="line"><span class="cl">127.0.0.1:6379&gt; EXEC
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> OK
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> OK
+</span></span><span class="line"><span class="cl">3<span class="o">)</span> OK
+</span></span></code></pre></div><p>使用go实现</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm">*在分布式事务中，并不能保证原子性，因此在实际应用中需要根据业务需求来决定是
+</span></span></span><span class="line"><span class="cl"><span class="cm">*否使用分布式事务。如果需要保证原子性，可以考虑使用 Redis 的 WATCH 命令来实
+</span></span></span><span class="line"><span class="cl"><span class="cm">*现乐观锁，或者使用分布式锁来保护关键操作。
+</span></span></span><span class="line"><span class="cl"><span class="cm">*/</span>
+</span></span><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;context&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/go-redis/redis/v8&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// 创建 Redis 客户端
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">client</span> <span class="o">:=</span> <span class="nx">redis</span><span class="p">.</span><span class="nf">NewClient</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">redis</span><span class="p">.</span><span class="nx">Options</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">Addr</span><span class="p">:</span>     <span class="s">&#34;localhost:6379&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">Password</span><span class="p">:</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="c1">// set your password
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">DB</span><span class="p">:</span>       <span class="mi">0</span><span class="p">,</span>  <span class="c1">// use default DB
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// 开启事务
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">ctx</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">tx</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nf">TxPipeline</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// 将要执行的命令添加到事务队列中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">tx</span><span class="p">.</span><span class="nf">Set</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="s">&#34;key1&#34;</span><span class="p">,</span> <span class="s">&#34;value1&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">tx</span><span class="p">.</span><span class="nf">Set</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="s">&#34;key2&#34;</span><span class="p">,</span> <span class="s">&#34;value2&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">tx</span><span class="p">.</span><span class="nf">Set</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="s">&#34;key3&#34;</span><span class="p">,</span> <span class="s">&#34;value3&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// 执行事务
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">tx</span><span class="p">.</span><span class="nf">Exec</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Failed to execute transaction:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Transaction executed successfully&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="../../tags/redis/">redis</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <script src='//unpkg.com/@waline/client@v2/dist/waline.js'></script>
+<link href='//unpkg.com/@waline/client@v2/dist/waline.css' rel='stylesheet'/>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+        --waline-font-size: var(--article-font-size);
+    }
+    .waline-container .wl-count {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    Waline.init({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/tieba","https://cdn.jsdelivr.net/gh/walinejs/emojis/qq","https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/alus","https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"屑莹","placeholder":"网友评论区."},"pageview":true,"requiredMeta":["name","email"],"serverURL":"https://waline-1-f2033612.deta.app/","visitor":false});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2026 吴生有涯
+    </section>
+
+    
+	
+	<script defer src="https://busuanzi.9420.ltd/js"></script>
+        本文总阅读量 <span id="busuanzi_page_pv"></span> 次
+        本文总访客量 <span id="busuanzi_page_uv"></span> 人
+        本站总访问量 <span id="busuanzi_site_pv"></span> 次
+        本站总访客数 <span id="busuanzi_site_uv"></span> 人
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="../../ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
