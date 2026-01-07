@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Foundry 什么是Foundry Foundry是一个solidity框架，用于构建、测试、模糊、调试和部署智能合 约。Foundry完全使用Solidi'>
+<title>Foundry</title>
+
+<link rel='canonical' href='https://wushengyouya.github.io/p/foundry/'>
+
+<link rel="stylesheet" href="../../scss/style.min.4b0eac42a68e0a3548daa75c0ea06b5b77a0ac03a212a6bbe41eb5846cbcb5c6.css"><meta property='og:title' content='Foundry'>
+<meta property='og:description' content='Foundry 什么是Foundry Foundry是一个solidity框架，用于构建、测试、模糊、调试和部署智能合 约。Foundry完全使用Solidi'>
+<meta property='og:url' content='https://wushengyouya.github.io/p/foundry/'>
+<meta property='og:site_name' content='吴生有涯'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='solidity' /><meta property='article:tag' content='foundry' /><meta property='article:published_time' content='2024-06-20T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-06-20T00:00:00&#43;00:00'/><meta property='og:image' content='https://wushengyouya.github.io/p/foundry/image-1.png' />
+<meta name="twitter:title" content="Foundry">
+<meta name="twitter:description" content="Foundry 什么是Foundry Foundry是一个solidity框架，用于构建、测试、模糊、调试和部署智能合 约。Foundry完全使用Solidi"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://wushengyouya.github.io/p/foundry/image-1.png' />
+    <link rel="shortcut icon" href="../../img/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "light");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="../../">
+                
+                    
+                    
+                    
+                        
+                        <img src="../../img/avatar_hu6884e68a33b95cdefc80892295f86f1e_979017_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="../../">吴生有涯</a></h1>
+            <h2 class="site-description">落霞与孤鹜齐飞</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href=''
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='../../index.xml'
+                        target="_blank"
+                        title="RSS"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="5" cy="19" r="1" />
+  <path d="M4 4a16 16 0 0 1 16 16" />
+  <path d="M4 11a9 9 0 0 1 9 9" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='../../' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#什么是foundry">什么是Foundry</a></li>
+    <li><a href="#安装foundry">安装Foundry</a>
+      <ol>
+        <li><a href="#使用foundryup安装">使用Foundryup安装</a></li>
+      </ol>
+    </li>
+    <li><a href="#私钥的存储方式">私钥的存储方式</a></li>
+    <li><a href="#交易">交易</a>
+      <ol>
+        <li><a href="#交易费计算">交易费计算</a></li>
+        <li><a href="#evm和zksync交易类型">EVM和zksync交易类型</a></li>
+      </ol>
+    </li>
+    <li><a href="#forge">Forge</a>
+      <ol>
+        <li><a href="#forge-init初始化项目">forge init初始化项目</a></li>
+        <li><a href="#forge-build编译及-forge-test测试">forge build编译及 forge test测试</a></li>
+        <li><a href="#forge-create合约部署与验证">forge create合约部署与验证</a>
+          <ol>
+            <li><a href="#脚本部署合约">脚本部署合约</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#cast">Cast</a>
+      <ol>
+        <li><a href="#获取链上信息">获取链上信息</a></li>
+        <li><a href="#获取区块信息">获取区块信息</a></li>
+        <li><a href="#获取账户信息">获取账户信息</a></li>
+        <li><a href="#发送交易">发送交易</a></li>
+        <li><a href="#获取合约代码">获取合约代码</a></li>
+        <li><a href="#获取链上storage槽的private状态变量">获取链上Storage槽的private状态变量</a></li>
+        <li><a href="#将bytes32转为string">将bytes32转为string</a></li>
+        <li><a href="#获取合约所有storage变量">获取合约所有storage变量</a></li>
+        <li><a href="#解析函数的返回值">解析函数的返回值</a></li>
+      </ol>
+    </li>
+    <li><a href="#anvil">Anvil</a>
+      <ol>
+        <li><a href="#anvil的功能和重要性">Anvil的功能和重要性</a></li>
+        <li><a href="#安装">安装</a></li>
+        <li><a href="#运行">运行</a></li>
+      </ol>
+    </li>
+    <li><a href="#chisel">Chisel</a></li>
+    <li><a href="#forge标准库">Forge标准库</a></li>
+    <li><a href="#测试">测试</a>
+      <ol>
+        <li><a href="#作弊码cheatcode">作弊码(Cheatcode)</a></li>
+        <li><a href="#编写测试">编写测试</a></li>
+        <li><a href="#执行测试">执行测试</a></li>
+        <li><a href="#执行后颜色标识">执行后颜色标识</a></li>
+        <li><a href="#分叉测试">分叉测试</a>
+          <ol>
+            <li><a href="#三种分叉测试方式">三种分叉测试方式</a></li>
+            <li><a href="#分叉作弊码">分叉作弊码</a></li>
+            <li><a href="#分叉的独立和持久性">分叉的独立和持久性</a></li>
+          </ol>
+        </li>
+        <li><a href="#模糊测试">模糊测试</a>
+          <ol>
+            <li><a href="#单元测试">单元测试</a></li>
+            <li><a href="#属性测试">属性测试</a></li>
+            <li><a href="#排除特定情况">排除特定情况</a></li>
+            <li><a href="#fuzz-testing优势">Fuzz Testing优势</a></li>
+            <li><a href="#单元测试属性测试完整案例">单元测试,属性测试完整案例</a></li>
+          </ol>
+        </li>
+        <li><a href="#不变性测试">不变性测试</a>
+          <ol>
+            <li><a href="#不变量">不变量</a></li>
+          </ol>
+        </li>
+        <li><a href="#差异化测试">差异化测试</a>
+          <ol>
+            <li><a href="#差异化测试案例">差异化测试案例</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#模拟主网分叉">模拟主网分叉</a>
+      <ol>
+        <li><a href="#启动分叉">启动分叉</a></li>
+      </ol>
+    </li>
+    <li><a href="#常见错误">常见错误</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    
+<header class="article-header">
+        <div class="article-image">
+            <a href="../../p/foundry/">
+                
+                    <img src="../../p/foundry/image-1.png"
+                        
+                        width="953" 
+                        height="305" 
+                        loading="lazy"
+                        alt="Featured image of post Foundry" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="../../categories/%E7%BC%96%E7%A8%8B/" >
+                编程
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="../../p/foundry/">Foundry</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2024/06/20</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 12 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="foundry">Foundry</h1>
+<h2 id="什么是foundry">什么是Foundry</h2>
+<p>Foundry是一个solidity框架，用于构建、测试、模糊、调试和部署智能合
+约。Foundry完全使用Solidity进行开发与测试，而且构建、测试的执行速
+非常快。</p>
+<p>Foundry通过cheatcodes来操纵区块链的状态，可以方便我们模拟各种情况。</p>
+<p>Foundry用Rust语言编写，包含了一系列可以与Ethereum网络交互的工具</p>
+<ul>
+<li>Forge 用来进行合约的测试</li>
+<li>Cast 与合约进行交互，发交易，查询链上数据</li>
+<li>Anvil 可以模拟一个私有节点</li>
+<li>Chisel 可以在命令行快速的有效的实时的写合约、测试合约</li>
+</ul>
+<h2 id="安装foundry">安装Foundry</h2>
+<h3 id="使用foundryup安装">使用Foundryup安装</h3>
+<p>Foundryup是foundry工具包的安装器</p>
+<p>1、终端执行，这会下载<code>foundryup</code>.（提示设置环境变量或者新开窗口，并通过运行它安装foundry）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -L https://foundry.paradigm.xyz <span class="p">|</span> bash
+</span></span></code></pre></div><p>2、执行后会自动安装,<code>forge</code>,<code>cast</code>,<code>anvil</code>,<code>chisel</code></p>
+<p>3、验证安装是否成功</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">forge --version
+</span></span></code></pre></div><blockquote>
+<p>Windows一般采用git bash内执行安装,因为目前Foundryup不支持Powershell</p>
+</blockquote>
+<h2 id="私钥的存储方式">私钥的存储方式</h2>
+<ol>
+<li>测试阶段可以使用键值对<code>$PRIVATE_KEY</code>存放在<code>.env</code>文件中,并保证<code>.env</code>文件包含在<code>.gitignore</code>中</li>
+<li>涉及到真实货币时可以采用<code>--interactive</code> 方式或者使用 <a class="link" href="https://github.com/Cyfrin/foundry-full-course-f23?tab=readme-ov-file#can-you-encrypt-a-private-key---a-keystore-in-foundry-yet"  target="_blank" rel="noopener"
+    >keystore file protected by a password</a></li>
+<li>使用 <a class="link" href="https://thirdweb.com/"  target="_blank" rel="noopener"
+    >thirdweb</a>部署</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">forge script --help
+</span></span><span class="line"><span class="cl"><span class="c1"># 指定一个加密文件存储路径，该文件由密码加密，这样私钥不会明文显示</span>
+</span></span><span class="line"><span class="cl">forge script --keystore &lt;PATH&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用私钥导入钱包</span>
+</span></span><span class="line"><span class="cl">cast wallet import &lt;NAME&gt; --interactive
+</span></span><span class="line"><span class="cl">cast wallet list
+</span></span><span class="line"><span class="cl">forge script script/DeploySimpleStorage.s.sol:DeploySimpleStorage --rpc-url 127.0.0.1:8545 --account defaultkey --sender 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --broadcast -vvvv
+</span></span></code></pre></div><h2 id="交易">交易</h2>
+<h3 id="交易费计算">交易费计算</h3>
+<p>Total Cost = Gas Used * Gas Price</p>
+<p>279,288.255846978 Gwei = 357,498 * 0.781230261 Gwei  =&gt; 0.000279288255846978 ETH
+<a class="link" href="https://sepolia.etherscan.io/tx/0xc496b9d30df33aa9285ddd384c14ce2a58eef470898b5cda001d0f4a21b017f6"  target="_blank" rel="noopener"
+    >例子</a></p>
+<h3 id="evm和zksync交易类型">EVM和zksync交易类型</h3>
+<p>以太坊虚拟机（EVM）和ZKsync生态系统支持多种交易类型，以适应各种以太坊改提案(EIP)。最初，以太坊只有一种交易类型(<code>0x0</code>)，
+但随着生态系统演变，通过各种EIP引入了多种类型。</p>
+<ul>
+<li>Legacy <code>0x0</code>：evm最初的交易类型</li>
+<li>EIP-2930 <code>0x1</code>：</li>
+<li>EIP-1559 <code>0x2</code>：当前EVM的默认类型。在以太坊伦敦升级中引入，EIP-1559：ETH 1.0 链费用市场变更，修改了交易费用的处理方式，用基础费用替换了 gasPrice ，并允许用户设置 maxPriorityFeePerGas 和 maxFeePerGas 。</li>
+<li>EIP-712 <code>0x71</code>：类型化结构化数据哈希和签名，允许在交易中实现结构化数据的哈希和签名。ZKsync Era 使用这项技术来实现账户抽象和代付主等功能。</li>
+</ul>
+<p><a class="link" href="https://learnblockchain.cn/article/8858"  target="_blank" rel="noopener"
+    >交易类型的区别、legacy、eip-1559、eip-2930、eip-4844</a></p>
+<h2 id="forge">Forge</h2>
+<h3 id="forge-init初始化项目">forge init初始化项目</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">forge init hello_foundry
+</span></span></code></pre></div><p><code>init</code> 命令会自动创建一个项目目录,并安装好<code>forge-std</code>库</p>
+<ul>
+<li>scr:智能合约目录</li>
+<li>script:部署脚本文件</li>
+<li>lib:依赖库目录</li>
+<li>test:智能合约测试用例文件</li>
+<li>foundry.toml:配置文件</li>
+</ul>
+<h3 id="forge-build编译及-forge-test测试">forge build编译及 forge test测试</h3>
+<p><code>forge build</code>编译合约，如果foundry.toml文件未指定solc编译版本，则默认使用最新的。编译好的文件(合约ABI，bytecode)，放在<code>out</code>文件夹中。</p>
+<p><code>forge test</code>命令执行测试用例，一键把所有<code>test</code>包下的测试用例都执行一边，并打印测试的结果。</p>
+<p>一些约定:</p>
+<ul>
+<li>测试用例位于<code>test</code>包下,通常用<code>***.t.sol</code>为结尾来命名</li>
+<li>测试方法的命名<code>test_***</code>，后面遵循骆驼峰命名</li>
+<li>继承<code>forge-std</code>标准库下的<code>Test.sol</code>合约来编写测试用例</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-solidity" data-lang="solidity"><span class="line"><span class="cl"><span class="c1">// SPDX-License-Identifier: UNLICENSED
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">pragma solidity</span> <span class="o">^</span><span class="mi">0</span><span class="p">.</span><span class="mi">8</span><span class="p">.</span><span class="mi">13</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">{</span><span class="n">Test</span><span class="p">,</span> <span class="n">console</span><span class="p">}</span> <span class="k">from</span> <span class="s">&#34;forge-std/Test.sol&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">{</span><span class="n">Counter</span><span class="p">}</span> <span class="k">from</span> <span class="s">&#34;../src/Counter.sol&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">contract</span> <span class="nc">CounterTest</span> <span class="k">is</span> <span class="n">Test</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Counter</span> <span class="k">public</span> <span class="n">counter</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nf">setUp</span><span class="p">()</span> <span class="k">public</span> <span class="p">{</span><span class="c1">//测试前的初始化
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">counter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Counter</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">counter</span><span class="p">.</span><span class="n">setNumber</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nf">test_Increment</span><span class="p">()</span> <span class="k">public</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">counter</span><span class="p">.</span><span class="n">increment</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">assertEq</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="nb">number</span><span class="p">(),</span> <span class="mi">1</span><span class="p">);</span><span class="c1">//断言修改后的状态变量,assertNotEq断言不相等
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nf">testFuzz_SetNumber</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">x</span><span class="p">)</span> <span class="k">public</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">counter</span><span class="p">.</span><span class="n">setNumber</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">assertEq</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="nb">number</span><span class="p">(),</span> <span class="n">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>执行测试的三种方式:</p>
+<ul>
+<li><code>forge test</code> 一键执行</li>
+<li><code>forge test --match-path test/Counter.t.sol</code>,使用<code>--match-path</code>指定某一路径下的文件</li>
+<li><code>forge test --match-contract ConunterTest --match-test test_Increment</code>,用<code>--match-contract</code>来指定测试合约的名称</li>
+</ul>
+<p>验证Revert:</p>
+<ul>
+<li><code>testFail_xxx</code>来验证是否触发了revert操作，如果没有触发revert则测试失败，否则测试通过。</li>
+<li><code>vm.expeectRevert(stdError.arithmericError)</code>来期望一个revert</li>
+</ul>
+<p><code>测试函数必须具有 external 或 public 可见性。声明为 internal 或 private 的函数不会被forge处理，即使它们的前缀为 test</code></p>
+<p>测试等级:</p>
+<ul>
+<li>-v 默认</li>
+<li>-vv 打印测试中的日志、断言、预期结果、错误原因</li>
+<li>-vvv 打印出测试失败中的失败堆栈调用</li>
+<li>-vvvv 显示最详细的测试结果，包括所有内部调用和日志信息</li>
+<li>-vvvvv</li>
+</ul>
+<h3 id="forge-create合约部署与验证">forge create合约部署与验证</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">forge create --rpc-url https://sepolia.infura.io/v3/37124d613dde4cb4b2f0ebc6d6149277  
+</span></span><span class="line"><span class="cl">--private-key 7a53f0a5f517ecb17943179a7eb351227607ee7bb01c2ca9d1785ea4ade5f147 
+</span></span><span class="line"><span class="cl">--etherscan-api-key IC4N3ES8HC8CSGCDPUN3JIPGJY5KPPKZFN 
+</span></span><span class="line"><span class="cl">--verify src/MyContract.sol:MyToken --constructor-args asuna ASU <span class="m">18</span> <span class="m">100000</span>
+</span></span></code></pre></div><ul>
+<li>-verify: 验证合约，即在浏览器中开源合约的源码</li>
+<li>&ndash;private-key: 钱包私钥</li>
+<li>&ndash;constructor-args: 部署合约构造函数参数</li>
+</ul>
+<p>验证合约:</p>
+<ol>
+<li>forge verify-contract</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">forge verify-contract <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --chain-id <span class="m">11155111</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --num-of-optimizations <span class="m">1000000</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --watch <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --constructor-args <span class="k">$(</span>cast abi-encode <span class="s2">&#34;constructor(string,string,uint256,uint256)&#34;</span> <span class="s2">&#34;ForgeUSD&#34;</span> <span class="s2">&#34;FUSD&#34;</span> <span class="m">18</span> 1000000000000000000000<span class="k">)</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --etherscan-api-key &lt;your_etherscan_api_key&gt; <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --compiler-version v0.8.10+commit.fc410830 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    &lt;the_contract_address&gt; <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	    src/MyToken.sol:MyToken 
+</span></span></code></pre></div><h4 id="脚本部署合约">脚本部署合约</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-solidity" data-lang="solidity"><span class="line"><span class="cl"><span class="c1">// SPDX-License-Identifier: UNLICENSED
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">pragma solidity</span> <span class="o">^</span><span class="mi">0</span><span class="p">.</span><span class="mi">8</span><span class="p">.</span><span class="mi">25</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">{</span><span class="n">Script</span><span class="p">}</span> <span class="k">from</span> <span class="s">&#34;forge-std/Script.sol&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;../src/MyToken.sol&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">contract</span> <span class="nc">MyTokenScript</span> <span class="k">is</span> <span class="n">Script</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nf">run</span><span class="p">()</span> <span class="k">external</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">uint256</span> <span class="n">deployer</span> <span class="o">=</span> <span class="n">vm</span><span class="p">.</span><span class="n">envUint</span><span class="p">(</span><span class="s">&#34;PRIVATE_KEY&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">vm</span><span class="p">.</span><span class="n">startBroadcast</span><span class="p">(</span><span class="n">deployer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">MyToken</span> <span class="n">myToken</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MyToken</span><span class="p">(</span><span class="s">&#34;MyToken&#34;</span><span class="p">,</span> <span class="s">&#34;MT&#34;</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">1000000000000000000</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">vm</span><span class="p">.</span><span class="n">stopBroadcast</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">forge script script/MyTokenScript.s.sol:MyTokenScript --broadcast --rpc-url &lt;RPC_URL&gt; --private-key &lt;YOUR_PRIVATE_KEY&gt;
+</span></span></code></pre></div><ul>
+<li><code>vm.startBroadcast()</code>: 标记从这一点开始的所有交易都应该被广播。这意味着在<code>vm.startBroadcast()</code>和<code>vm.stopBroadcast()</code>之间的所有操作都会被记录并准备广播。</li>
+<li><code>--broadcst</code>: 广播交易，执行实际部署操作广播到区块链网络。不加则只是模拟部署过程。</li>
+</ul>
+<p>这个部署脚本本身就是一个智能合约。脚本是通过调用名为<code>run</code>的函数来执行的</p>
+<h2 id="cast">Cast</h2>
+<p>cast是foundry用于执行以太坊RPC调用的命令行工具。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cast &lt;subcommand&gt;
+</span></span></code></pre></div><h3 id="获取链上信息">获取链上信息</h3>
+<ol>
+<li>直接使用</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cast call 0x6b175474e89094c44da98b954eedeac495271d0f <span class="s2">&#34;totalSupply()(uint256)&#34;</span> 
+</span></span><span class="line"><span class="cl">--rpc-url &lt;your rpc url&gt; 
+</span></span><span class="line"><span class="cl"><span class="m">8603853182003814300330472690</span>
+</span></span></code></pre></div><p><img src="../../p/foundry/image.png"
+	width="930"
+	height="303"
+	srcset="../../p/foundry/image_huaa000403cb20719311832ae90d71cb27_40336_480x0_resize_box_3.png 480w, ../../p/foundry/image_huaa000403cb20719311832ae90d71cb27_40336_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="306"
+		data-flex-basis="736px"
+	
+>
+2. 设置&ndash;rpc-url</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">ETH_RPC_URL</span><span class="o">=</span><span class="s2">&#34;https://eth-mainnet.alchemyapi.io/v2/Lc7oIGYeL_......&#34;</span>
+</span></span></code></pre></div><p>设置了RPC URL后，就不需要每次运行命令时单独设置</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#获取链id</span>
+</span></span><span class="line"><span class="cl">cast chain-id
+</span></span><span class="line"><span class="cl"><span class="c1">#获取client</span>
+</span></span><span class="line"><span class="cl">cast client
+</span></span><span class="line"><span class="cl"><span class="c1">#链的名称</span>
+</span></span><span class="line"><span class="cl">cast chain
+</span></span><span class="line"><span class="cl"><span class="c1">#gas价格</span>
+</span></span><span class="line"><span class="cl">cast gas-price
+</span></span></code></pre></div><h3 id="获取区块信息">获取区块信息</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#最新区块号 </span>
+</span></span><span class="line"><span class="cl">cast block-number
+</span></span><span class="line"><span class="cl"><span class="c1"># 获取指定区块的基础费用</span>
+</span></span><span class="line"><span class="cl">cast basefee <span class="m">6139522</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#区块的时间戳</span>
+</span></span><span class="line"><span class="cl">cast age
+</span></span></code></pre></div><h3 id="获取账户信息">获取账户信息</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#获取指定账户的金额,单位是 wei</span>
+</span></span><span class="line"><span class="cl">cast balance &lt;address&gt;
+</span></span><span class="line"><span class="cl"><span class="c1">#指定ENS名称查询余额</span>
+</span></span><span class="line"><span class="cl">cast balance vitalik.eth
+</span></span></code></pre></div><h3 id="发送交易">发送交易</h3>
+<p>调用合约函数
+<img src="../../p/foundry/image-1.png"
+	width="953"
+	height="305"
+	srcset="../../p/foundry/image-1_huf6345465364bedde46ff0e168ff1e122_35519_480x0_resize_box_3.png 480w, ../../p/foundry/image-1_huf6345465364bedde46ff0e168ff1e122_35519_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="312"
+		data-flex-basis="749px"
+	
+></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cast send --private-key &lt;private_key_addr&gt; &lt;contract_addr&gt; <span class="s2">&#34;exampleFunc(uint256)&#34;</span> &lt;argument_value_of_the_function&gt;
+</span></span><span class="line"><span class="cl"><span class="c1"># 案例</span>
+</span></span><span class="line"><span class="cl">cast send --private-key 0x7a53f0a5f517ecb17943179a7eb351227607ee7bb01c2ca9d1785ea4ade5f147 0xf404916d6A17ca37584a9f673a40c1F839825fC9 <span class="s2">&#34;balanceOf(address)&#34;</span> 0x3C2c4Cd3d0F7902FD72700D98fad2750746e03d6
+</span></span></code></pre></div><p>如果调用合约中不存在的函数，将自动触发<code>Fallback</code>函数.这可以用于测试合约的异常处理或特定的功能。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cast send --private-key 0x123... 0xabc... <span class="s2">&#34;dummy()&#34;</span>
+</span></span></code></pre></div><p>通过向合约发送以太币（Ether），可以触发合约的 Receive 函数。这对于接受捐款或处理支付非常有用。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cast send --private-key &lt;private_key_addr&gt; &lt;contract_addr&gt; --value 10gwei
+</span></span></code></pre></div><h3 id="获取合约代码">获取合约代码</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cast etherscan-source &lt;contract-address&gt;
+</span></span><span class="line"><span class="cl"><span class="c1"># 案例</span>
+</span></span><span class="line"><span class="cl">cast etherscan-source 0xf404916d6A17ca37584a9f673a40c1F839825fC9
+</span></span></code></pre></div><h3 id="获取链上storage槽的private状态变量">获取链上Storage槽的private状态变量</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cast storage 0x5FbDB2315678afecb367f032d93F642f64180aa3 <span class="m">1</span> --rpc-url http://localhost:8545
+</span></span></code></pre></div><h3 id="将bytes32转为string">将bytes32转为string</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cast parse-bytes32-string 0x6d696b617361000000000000000000000000000000000000000000000000000c
+</span></span></code></pre></div><h3 id="获取合约所有storage变量">获取合约所有storage变量</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">forge inspect &lt;contract_name&gt; &lt;option&gt;
+</span></span><span class="line"><span class="cl">forge inspect PasswordStore storage
+</span></span></code></pre></div><h3 id="解析函数的返回值">解析函数的返回值</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 1</span>
+</span></span><span class="line"><span class="cl">cast abi-decode <span class="s2">&#34;name()(string)&#34;</span> <span class="se">\ </span>
+</span></span><span class="line"><span class="cl">0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000084f7572546f6b656e000000000000000000000000000000000000000000000000
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 2</span>
+</span></span><span class="line"><span class="cl">cast call 0x0165878A594ca255338adfa4d48449f69242Eb8F <span class="s2">&#34;balanceOf(address)&#34;</span> 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 <span class="p">|</span> cast to-dec
+</span></span></code></pre></div><h2 id="anvil">Anvil</h2>
+<p>Anvil是Foundry套件的一部分，专为提供一个便于本地测试和开发的以太坊节点而设计。Anvil与Forge、Cast、Chisel一起为智能合约开发者提供了一个完整的工具集，以支持从开发到测试的整个生命周期。</p>
+<h3 id="anvil的功能和重要性">Anvil的功能和重要性</h3>
+<p>Anvil允许开发者在本地环境中运行一个轻量级的以太坊节点，这使得从前端测试智能合约或通过RPC接口与合约进行交互变得简单快捷。</p>
+<h3 id="安装">安装</h3>
+<p>运行 foundryup 来更新到最新版本，确保所有工具都是最新的</p>
+<h3 id="运行">运行</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 运行</span>
+</span></span><span class="line"><span class="cl">anvil
+</span></span><span class="line"><span class="cl"><span class="c1">#查看帮助</span>
+</span></span><span class="line"><span class="cl">anvil -h
+</span></span><span class="line"><span class="cl"><span class="c1">#生成10个开发账户</span>
+</span></span><span class="line"><span class="cl">anvil -a <span class="m">10</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#设置硬分叉版本</span>
+</span></span><span class="line"><span class="cl">anvil --hardfork &lt;HARDFORK&gt;
+</span></span><span class="line"><span class="cl"><span class="c1">#设置监听端口</span>
+</span></span><span class="line"><span class="cl">anvil -p &lt;PORT&gt;
+</span></span><span class="line"><span class="cl"><span class="c1">#创建从网络复制分叉在本地创建一个节点，从第500000个区块开始</span>
+</span></span><span class="line"><span class="cl">anvil --fork-url https://sepolia.infura.io/v3/&lt;YOUR_KEY&gt; --fork-block-number <span class="m">500000</span>
+</span></span></code></pre></div><h2 id="chisel">Chisel</h2>
+<p>Chisel 是一个 Solidity REPL（&ldquo;读取-评估-打印 循环 &ldquo;的缩写），它允许开发人员编写和测试 Solidity 代码片段。</p>
+<p>启动 Chisel 非常简单，只需在命令行中输入 <code>chisel</code> 即可。启动后，你可以直接在命令行中编写和测试 Solidity 代码。</p>
+<h2 id="forge标准库">Forge标准库</h2>
+<p>Forge Std的核心是其测试合约<code>Test.sol</code></p>
+<p>使用Forge Std，只需要导入Test.sol,并测试合约中继承Test:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-solidity" data-lang="solidity"><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;forge-std/Test.sol&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">contract</span> <span class="nc">ContractTest</span> <span class="k">is</span> <span class="n">Test</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 测试代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>核心功能</p>
+<ul>
+<li>访问<code>Hevm</code>:通过vm实例可以直接使用cheatcodes来模拟各种区块链状态和行为。</li>
+<li>断言与日志记录</li>
+<li>标准库各种实用工具</li>
+</ul>
+<p>包含的库</p>
+<ul>
+<li>Std Logs</li>
+<li>Std Assertions 对DSTest库中的断言函数进行了扩展</li>
+<li>Std Cheats</li>
+<li>Std Error</li>
+<li>Std Storage</li>
+</ul>
+<h2 id="测试">测试</h2>
+<h3 id="作弊码cheatcode">作弊码(Cheatcode)</h3>
+<p>作弊码允许开发者在测试中执行一系列非标准操作，比如更改区块好、修改调用者身份等。</p>
+<ul>
+<li>身份切换: vm.prank</li>
+<li>预期还原: vm.expectRevert</li>
+<li>事件验证：vm.expectEmit</li>
+</ul>
+<h3 id="编写测试">编写测试</h3>
+<p>导入<code>forge-std/Test.sol</code>继承<code>Test</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-solidity" data-lang="solidity"><span class="line"><span class="cl"><span class="k">pragma solidity</span> <span class="mi">0</span><span class="p">.</span><span class="mi">8</span><span class="p">.</span><span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;forge-std/Test.sol&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">contract</span> <span class="nc">MyTest</span> <span class="k">is</span> <span class="n">Test</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 测试代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p><code>setUp</code> 是一个可选函数，会在每个测试用例运行前被调用，用于初始化测试环境</p>
+<p><code>test</code>为前缀被识别为测试用例</p>
+<p><code>testFail</code>为前缀的函数，测试预期失败，没有触发revert，则测试失败</p>
+<h3 id="执行测试">执行测试</h3>
+<p>全局测试</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">forge <span class="nb">test</span>
+</span></span></code></pre></div><p>指定测试</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 此命令将仅运行名为ComplicatedContractTest的测试合约中包含test_Deposit的测试函数。</span>
+</span></span><span class="line"><span class="cl">forge <span class="nb">test</span> --match-contract ComplicatedContractTest --match-test test_Depsosit
+</span></span></code></pre></div><p>Glob模式</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">forge <span class="nb">test</span> --match-path test/ContractB.t.sol
+</span></span></code></pre></div><p>在分叉上测试</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">forge <span class="nb">test</span> --fork-url &lt;RPC_URL&gt;
+</span></span></code></pre></div><p>观察模式</p>
+<ul>
+<li><code>forge test --watch</code> 对文件更改时，forge可以重新运行测试</li>
+<li><code>forge test --watch --run-all</code> 更改时，重新运行所有测试</li>
+</ul>
+<h3 id="执行后颜色标识">执行后颜色标识</h3>
+<ul>
+<li>黄色：有触发 revert 的调用</li>
+<li>红色：触发revert的调用</li>
+<li>蓝色：对Cheatcodes的调用</li>
+<li>青色：已发出的日志</li>
+<li>黄色：合约部署</li>
+</ul>
+<h3 id="分叉测试">分叉测试</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 1</span>
+</span></span><span class="line"><span class="cl">forge <span class="nb">test</span> --fork-url &lt;your_rpc_url&gt;
+</span></span><span class="line"><span class="cl"><span class="c1"># 2</span>
+</span></span><span class="line"><span class="cl">forge <span class="nb">test</span> --fork-url &lt;your_rpc_url&gt; --fork-block-number <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 3</span>
+</span></span><span class="line"><span class="cl">forge <span class="nb">test</span> --fork-url &lt;your_rpc_url&gt; --etherscan-api-key &lt;your_etherscan_api_key&gt;
+</span></span></code></pre></div><h4 id="三种分叉测试方式">三种分叉测试方式</h4>
+<ul>
+<li><code>vm.createFork()</code>：用于测试过程中动态创建分叉，适用于需要在测试中频繁切换分叉的场景。</li>
+<li><code>anvil --fork-url</code>：用于启动本地节点并创建分叉，适用于本地环境的持续开发和测试。</li>
+<li><code>forge test --fork-url</code>：用于在测试环境中创建分叉，并在该分叉上运行所有测试，适用于需要在分叉环境中进行全面测试的场景。</li>
+</ul>
+<h4 id="分叉作弊码">分叉作弊码</h4>
+<p>分叉作弊码允许我们在solidity测试代码中直接创建、选择和管理多个分叉。每个奉茶通过一个唯一的<code>uint256</code>标识在识别。</p>
+<p>*** 重要的是要记住，所有测试函数都是隔离的，这意味着每个测试函数都在setUp后的状态副本中执行，并在其自己的独立 EVM 中执行。因此，在setUp期间创建的分叉在测试中可用。**</p>
+<h4 id="分叉的独立和持久性">分叉的独立和持久性</h4>
+<p>每个分叉都是一个独立的<code>EVM</code>，使用完全独立的存储。<code>msg.sender</code>和测试合约本省的状态在分叉间时持久的。</p>
+<p>持久性账户允许我们在一个分叉环境中创建和修改状态，并在另一个分叉环境中保持这些状态不变。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-solidity" data-lang="solidity"><span class="line"><span class="cl"><span class="kd">contract</span> <span class="nc">SimpleStorageContract</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint256</span> <span class="k">public</span> <span class="nb">value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nf">set</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">_value</span><span class="p">)</span> <span class="k">public</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">value</span> <span class="o">=</span> <span class="n">_value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 创建并测试持久性合约
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nf">testCreatePersistentContract</span><span class="p">()</span> <span class="k">public</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 首先，选择一个分叉环境
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">vm</span><span class="p">.</span><span class="n">selectFork</span><span class="p">(</span><span class="n">mainnetFork</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 在该分叉环境中部署并初始化合约
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">SimpleStorageContract</span> <span class="n">simple</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleStorageContract</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">simple</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 确认合约的状态设置正确
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">assertEq</span><span class="p">(</span><span class="n">simple</span><span class="p">.</span><span class="nb">value</span><span class="p">(),</span> <span class="mi">100</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 接下来，将合约标记为持久性
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">vm</span><span class="p">.</span><span class="n">makePersistent</span><span class="p">(</span><span class="kt">address</span><span class="p">(</span><span class="n">simple</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 验证合约已被正确标记为持久性
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nb">assert</span><span class="p">(</span><span class="n">vm</span><span class="p">.</span><span class="n">isPersistent</span><span class="p">(</span><span class="kt">address</span><span class="p">(</span><span class="n">simple</span><span class="p">)));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 然后，切换到另一个分叉环境
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">vm</span><span class="p">.</span><span class="n">selectFork</span><span class="p">(</span><span class="n">optimismFork</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 验证即使在新的分叉环境中，合约仍被标记为持久性
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nb">assert</span><span class="p">(</span><span class="n">vm</span><span class="p">.</span><span class="n">isPersistent</span><span class="p">(</span><span class="kt">address</span><span class="p">(</span><span class="n">simple</span><span class="p">)));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 最后，确认持久性合约的状态在新的分叉环境中保持不变
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">assertEq</span><span class="p">(</span><span class="n">simple</span><span class="p">.</span><span class="nb">value</span><span class="p">(),</span> <span class="mi">100</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="模糊测试">模糊测试</h3>
+<h4 id="单元测试">单元测试</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-solidity" data-lang="solidity"><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;forge-std/Test.sol&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">contract</span> <span class="nc">SafeTest</span> <span class="k">is</span> <span class="n">Test</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Safe</span> <span class="n">safe</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nf">setUp</span><span class="p">()</span> <span class="k">public</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">safe</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Safe</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nf">test_Withdraw</span><span class="p">()</span> <span class="k">public</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">payable</span><span class="p">(</span><span class="kt">address</span><span class="p">(</span><span class="n">safe</span><span class="p">)).</span><span class="nb">transfer</span><span class="p">(</span><span class="mi">1</span> <span class="kc">ether</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">uint256</span> <span class="n">preBalance</span> <span class="o">=</span> <span class="kt">address</span><span class="p">(</span><span class="nb">this</span><span class="p">).</span><span class="nb">balance</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">safe</span><span class="p">.</span><span class="n">withdraw</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">uint256</span> <span class="n">postBalance</span> <span class="o">=</span> <span class="kt">address</span><span class="p">(</span><span class="nb">this</span><span class="p">).</span><span class="nb">balance</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">assertEq</span><span class="p">(</span><span class="n">preBalance</span> <span class="o">+</span> <span class="mi">1</span> <span class="kc">ether</span><span class="p">,</span> <span class="n">postBalance</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h4 id="属性测试">属性测试</h4>
+<p>在Foundry中，任何待用参数的测试函数都会被视为属性测试</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-solidity" data-lang="solidity"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nf">testFuzz_Withdraw</span><span class="p">(</span><span class="kt">uint256</span> <span class="n">amount</span><span class="p">)</span> <span class="k">public</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">payable</span><span class="p">(</span><span class="kt">address</span><span class="p">(</span><span class="n">safe</span><span class="p">)).</span><span class="nb">transfer</span><span class="p">(</span><span class="n">amount</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint256</span> <span class="n">preBalance</span> <span class="o">=</span> <span class="kt">address</span><span class="p">(</span><span class="nb">this</span><span class="p">).</span><span class="nb">balance</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">safe</span><span class="p">.</span><span class="n">withdraw</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint256</span> <span class="n">postBalance</span> <span class="o">=</span> <span class="kt">address</span><span class="p">(</span><span class="nb">this</span><span class="p">).</span><span class="nb">balance</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEq</span><span class="p">(</span><span class="n">preBalance</span> <span class="o">+</span> <span class="n">amount</span><span class="p">,</span> <span class="n">postBalance</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h4 id="排除特定情况">排除特定情况</h4>
+<p>使用<code>vm.assume</code>作弊码。可以排除某些不希望进行测试的特定情况。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-solidity" data-lang="solidity"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nf">testFuzz_Withdraw</span><span class="p">(</span><span class="kt">uint96</span> <span class="n">amount</span><span class="p">)</span> <span class="k">public</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vm</span><span class="p">.</span><span class="n">assume</span><span class="p">(</span><span class="n">amount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">.</span><span class="mi">1</span> <span class="kc">ether</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 测试逻辑...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><h4 id="fuzz-testing优势">Fuzz Testing优势</h4>
+<ul>
+<li>自动化测试</li>
+<li>广泛的覆盖率</li>
+<li>灵活性高</li>
+</ul>
+<h4 id="单元测试属性测试完整案例">单元测试,属性测试完整案例</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-solidity" data-lang="solidity"><span class="line"><span class="cl"><span class="c1">// SPDX-License-Identifier: MIT
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">pragma solidity</span> <span class="o">^</span><span class="mi">0</span><span class="p">.</span><span class="mi">8</span><span class="p">.</span><span class="mi">22</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">contract</span> <span class="nc">Safe</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">receive</span><span class="p">()</span> <span class="k">external</span> <span class="k">payable</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">constructor</span><span class="p">()</span> <span class="k">payable</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nf">withdraw</span><span class="p">()</span> <span class="k">public</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">payable</span><span class="p">(</span><span class="nb">msg</span><span class="p">.</span><span class="nb">sender</span><span class="p">).</span><span class="nb">transfer</span><span class="p">(</span><span class="kt">address</span><span class="p">(</span><span class="nb">this</span><span class="p">).</span><span class="nb">balance</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// SPDX-License-Identifier: MIT
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">pragma solidity</span> <span class="o">^</span><span class="mi">0</span><span class="p">.</span><span class="mi">8</span><span class="p">.</span><span class="mi">22</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;forge-std/Test.sol&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;src/Safe.sol&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">contract</span> <span class="nc">SafeTest</span> <span class="k">is</span> <span class="n">Test</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Safe</span> <span class="n">safe</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nf">setUp</span><span class="p">()</span> <span class="k">public</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">safe</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Safe</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">receive</span><span class="p">()</span> <span class="k">external</span> <span class="k">payable</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//单元测试
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">function</span> <span class="nf">test_Withdraw</span><span class="p">()</span> <span class="k">public</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">payable</span><span class="p">(</span><span class="kt">address</span><span class="p">(</span><span class="n">safe</span><span class="p">)).</span><span class="nb">transfer</span><span class="p">(</span><span class="mi">1</span> <span class="kc">ether</span><span class="p">);</span><span class="c1">//给合约转 1 ether
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kt">uint256</span> <span class="n">preBalance</span> <span class="o">=</span> <span class="kt">address</span><span class="p">(</span><span class="nb">this</span><span class="p">).</span><span class="nb">balance</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">safe</span><span class="p">.</span><span class="n">withdraw</span><span class="p">();</span><span class="c1">//取出合约中的所有金额给msg.sender
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kt">uint256</span> <span class="n">postBalance</span> <span class="o">=</span> <span class="kt">address</span><span class="p">(</span><span class="nb">this</span><span class="p">).</span><span class="nb">balance</span><span class="p">;</span><span class="c1">//取出后合约的余额
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">assertEq</span><span class="p">(</span><span class="n">preBalance</span> <span class="o">+</span> <span class="mi">1</span> <span class="kc">ether</span><span class="p">,</span> <span class="n">postBalance</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//属性测试
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//在进行 Fuzz Testing 时，可能会遇到高值输入导致测试失败的情况。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//例如，当amount超过合约拥有的余额时，测试将失败。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//为了解决这个问题，可以限制amount的类型为uint96，以确保输入值在合理的范围内。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">function</span> <span class="nf">testFuzz_Withdraw</span><span class="p">(</span><span class="kt">uint96</span> <span class="n">amount</span><span class="p">)</span> <span class="k">public</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//amount必须大于0.1 ether
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">vm</span><span class="p">.</span><span class="n">assume</span><span class="p">(</span><span class="n">amount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">.</span><span class="mi">1</span> <span class="kc">ether</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">payable</span><span class="p">(</span><span class="kt">address</span><span class="p">(</span><span class="n">safe</span><span class="p">)).</span><span class="nb">transfer</span><span class="p">(</span><span class="n">amount</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">uint256</span> <span class="n">preBalance</span> <span class="o">=</span> <span class="kt">address</span><span class="p">(</span><span class="nb">this</span><span class="p">).</span><span class="nb">balance</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">safe</span><span class="p">.</span><span class="n">withdraw</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">uint256</span> <span class="n">postBalance</span> <span class="o">=</span> <span class="kt">address</span><span class="p">(</span><span class="nb">this</span><span class="p">).</span><span class="nb">balance</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">assertEq</span><span class="p">(</span><span class="n">preBalance</span> <span class="o">+</span> <span class="n">amount</span><span class="p">,</span> <span class="n">postBalance</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="不变性测试">不变性测试</h3>
+<p>允许对预定义合约中预定义函数调用的随机序列进行测试，并在每次函数调用后断言一组不变表达式。</p>
+<p>不变性的测试维度：</p>
+<ul>
+<li>运行(runs)</li>
+<li>深度(depth)</li>
+</ul>
+<h4 id="不变量">不变量</h4>
+<p>不变量是在模糊测试过程中始终保持真实的条件表达式。一个好的不变性测试套件应尽可能多地包含不变量。</p>
+<p>不变量例子：</p>
+<ul>
+<li>对于Uniswap,&ldquo;xy=k公式始终成立&rdquo;。</li>
+<li>对于ERC-20代币，&ldquo;所有用户余额之和等于总供应量&rdquo;。</li>
+</ul>
+<h3 id="差异化测试">差异化测试</h3>
+<p>差异测试是一种通过比较同一功能的多个实现的输出来找出错误的测试方法。</p>
+<p>差异测试的核心是交叉验证。例如，如果我们有一个功能规范 F(X) 和该规范的两个实现 f1(X) 和 f2(X)，我们期望对于所有合理的输入 x，f1(x) 应该等于 f2(x)。如果 f1(x) 不等于 f2(x)，那么我们知道至少有一个实现是错误的。</p>
+<p>差异测试特别适用于以下情况：</p>
+<ul>
+<li>将升级后的实现与其早期版本进行比较。</li>
+<li>对照已知的参考实现测试代码。</li>
+<li>确认与第三方工具和依赖项的兼容性。</li>
+</ul>
+<h4 id="差异化测试案例">差异化测试案例</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-solidity" data-lang="solidity"><span class="line"><span class="cl"><span class="c1">// Solidity 版本的默克尔树实现
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nf">generateMerkleRoot</span><span class="p">(</span><span class="kt">bytes32</span><span class="p">[]</span> <span class="k">memory</span> <span class="n">leaves</span><span class="p">)</span> <span class="k">public</span> <span class="k">pure</span> <span class="k">returns</span> <span class="p">(</span><span class="kt">bytes32</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 示例代码：具体实现细节省略
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="nb">keccak256</span><span class="p">(</span><span class="nb">abi</span><span class="p">.</span><span class="nb">encodePacked</span><span class="p">(</span><span class="n">leaves</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nf">testMerkleRootMatchesJSImplementation</span><span class="p">(</span><span class="kt">bytes32</span><span class="p">[]</span> <span class="k">memory</span> <span class="n">leaves</span><span class="p">)</span> <span class="k">public</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">string</span><span class="p">[]</span> <span class="k">memory</span> <span class="n">args</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">string</span><span class="p">[](</span><span class="mi">3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#34;node&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#34;./calculateMerkleRoot.js&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">leaves</span><span class="p">.</span><span class="n">toHexString</span><span class="p">();</span>  <span class="c1">// 假设已实现转换为 hex 字符串的功能
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//vm.ffi 调用外部实现
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">bytes</span> <span class="k">memory</span> <span class="n">jsResult</span> <span class="o">=</span> <span class="n">vm</span><span class="p">.</span><span class="n">ffi</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bytes32</span> <span class="n">jsMerkleRoot</span> <span class="o">=</span> <span class="nb">abi</span><span class="p">.</span><span class="nb">decode</span><span class="p">(</span><span class="n">jsResult</span><span class="p">,</span> <span class="p">(</span><span class="kt">bytes32</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">bytes32</span> <span class="n">solMerkleRoot</span> <span class="o">=</span> <span class="n">generateMerkleRoot</span><span class="p">(</span><span class="n">leaves</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEq</span><span class="p">(</span><span class="n">solMerkleRoot</span><span class="p">,</span> <span class="n">jsMerkleRoot</span><span class="p">,</span> <span class="s">&#34;Merkle roots do not match&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="模拟主网分叉">模拟主网分叉</h2>
+<p>模拟主网分叉是指将一个活跃的区块链网络的状态复制到本地，并在本地环境中使用，通常 用于按照实际网络环境的状态来测试你的智能合约。</p>
+<h3 id="启动分叉">启动分叉</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 配置 RPC-URL</span>
+</span></span><span class="line"><span class="cl">anvil --fork-url &lt;YOUR_ENDPOINT_URL&gt; --form-block-number <span class="m">1900000</span>
+</span></span></code></pre></div><ul>
+<li><code>--fork-url</code> 标签用于从远端获取区块链状态</li>
+<li><code>--fork-block-number</code> 用于从特定区块号开始分叉区块链状态</li>
+</ul>
+<h2 id="常见错误">常见错误</h2>
+<ol>
+<li>OutOfFunds：在区块链和智能合约的上下文中，&ldquo;OutOfFunds&rdquo;（资金不足）是一个常见的错误或异常情况</li>
+<li>PrecompileOOG：指在执行预编译合约（Precompiled Contracts）时遇到的&quot;Out of Gas&rdquo;（OOG）错误，交易提供的Gas不足以覆盖执行所需的全部Gas时</li>
+</ol>
+<ul>
+<li>transfer 转账有gas限制,而使用call方法没有</li>
+</ul>
+<ol start="3">
+<li>division or modulo by zero：如果你尝试进行除法或取模运算，并且除数为0，那么会触发一个运行时错误，导致交易被回滚</li>
+</ol>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="../../tags/solidity/">solidity</a>
+        
+            <a href="../../tags/foundry/">foundry</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="../../p/solidity%E5%BC%82%E5%B8%B8%E8%AE%B0%E5%BD%95/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">solidity异常记录</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="../../p/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%A1%E8%AE%A1/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">智能合约审计</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="../../p/uniswap/">
+        
+        
+            <div class="article-image">
+                <img src="../../p/uniswap/image.78ea7c20d12d123b051610b7af6e8593.png" 
+                        width="558" 
+                        height="1395" 
+                        loading="lazy"
+                        alt="Featured image of post Uniswap"
+                        
+                        data-hash="md5-eOp8INEtEjsFFhC3r26Fkw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Uniswap</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="../../p/100gomistakes/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">100GoMistakes</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="../../p/mongodb%E5%AD%A6%E4%B9%A0/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="../../image.png" loading="lazy" data-key="" data-hash="/image.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">mongodb学习</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src='//unpkg.com/@waline/client@v2/dist/waline.js'></script>
+<link href='//unpkg.com/@waline/client@v2/dist/waline.css' rel='stylesheet'/>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+        --waline-font-size: var(--article-font-size);
+    }
+    .waline-container .wl-count {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    Waline.init({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/tieba","https://cdn.jsdelivr.net/gh/walinejs/emojis/qq","https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/alus","https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"屑莹","placeholder":"网友评论区."},"pageview":true,"requiredMeta":["name","email"],"serverURL":"https://waline-1-f2033612.deta.app/","visitor":false});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2026 吴生有涯
+    </section>
+
+    
+	
+	<script defer src="https://busuanzi.9420.ltd/js"></script>
+        本文总阅读量 <span id="busuanzi_page_pv"></span> 次
+        本文总访客量 <span id="busuanzi_page_uv"></span> 人
+        本站总访问量 <span id="busuanzi_site_pv"></span> 次
+        本站总访客数 <span id="busuanzi_site_uv"></span> 人
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="../../ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

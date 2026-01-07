@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='网络分层 常见的网络模型分为OSI七层模型与TCP/IP四层模型，OSI因为比较复杂实现起来麻烦，使用的不多。通常用TCP/IP 的四层网络模型'>
+<title>计算机网络</title>
+
+<link rel='canonical' href='https://wushengyouya.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/'>
+
+<link rel="stylesheet" href="../../scss/style.min.4b0eac42a68e0a3548daa75c0ea06b5b77a0ac03a212a6bbe41eb5846cbcb5c6.css"><meta property='og:title' content='计算机网络'>
+<meta property='og:description' content='网络分层 常见的网络模型分为OSI七层模型与TCP/IP四层模型，OSI因为比较复杂实现起来麻烦，使用的不多。通常用TCP/IP 的四层网络模型'>
+<meta property='og:url' content='https://wushengyouya.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/'>
+<meta property='og:site_name' content='吴生有涯'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='网络' /><meta property='article:published_time' content='2023-03-02T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2023-03-02T00:00:00&#43;00:00'/><meta property='og:image' content='https://wushengyouya.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image.png' />
+<meta name="twitter:title" content="计算机网络">
+<meta name="twitter:description" content="网络分层 常见的网络模型分为OSI七层模型与TCP/IP四层模型，OSI因为比较复杂实现起来麻烦，使用的不多。通常用TCP/IP 的四层网络模型"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://wushengyouya.github.io/p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image.png' />
+    <link rel="shortcut icon" href="../../img/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "light");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="../../">
+                
+                    
+                    
+                    
+                        
+                        <img src="../../img/avatar_hu6884e68a33b95cdefc80892295f86f1e_979017_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="../../">吴生有涯</a></h1>
+            <h2 class="site-description">落霞与孤鹜齐飞</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href=''
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='../../index.xml'
+                        target="_blank"
+                        title="RSS"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="5" cy="19" r="1" />
+  <path d="M4 4a16 16 0 0 1 16 16" />
+  <path d="M4 11a9 9 0 0 1 9 9" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='../../' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#网络分层">网络分层</a>
+      <ol>
+        <li><a href="#osi模型">OSI模型</a></li>
+        <li><a href="#tcpip模型">TCP/IP模型</a></li>
+        <li><a href="#数据包封包解包流程">数据包封包解包流程</a></li>
+      </ol>
+    </li>
+    <li><a href="#什么是http">什么是HTTP</a>
+      <ol>
+        <li><a href="#get-与-post">Get 与 Post</a></li>
+        <li><a href="#http-常见的状态码">HTTP 常见的状态码</a></li>
+        <li><a href="#http通过什么解决粘包问题的">HTTP通过什么解决粘包问题的</a></li>
+        <li><a href="#http和https有什么区别">HTTP和HTTPS有什么区别</a></li>
+        <li><a href="#https解决了什么问题">HTTPS解决了什么问题</a></li>
+        <li><a href="#http2改进在哪">HTTP/2改进在哪</a></li>
+        <li><a href="#http3">HTTP/3</a></li>
+        <li><a href="#输入网址到展示发什么了">输入网址到展示发什么了</a></li>
+      </ol>
+    </li>
+    <li><a href="#什么是tcp">什么是TCP</a>
+      <ol>
+        <li><a href="#tcp的三次握手和四次挥手">TCP的三次握手和四次挥手</a></li>
+        <li><a href="#为什么挥手需要四次">为什么挥手需要四次？</a></li>
+      </ol>
+    </li>
+    <li><a href="#什么是udp">什么是UDP</a>
+      <ol>
+        <li><a href="#tcp和udp的区别">TCP和UDP的区别</a></li>
+      </ol>
+    </li>
+    <li><a href="#为什么需要-time_wait-状态">为什么需要 TIME_WAIT 状态？</a></li>
+    <li><a href="#为什么-time_wait-等待的时间是-2msl">为什么 TIME_WAIT 等待的时间是 2MSL</a></li>
+    <li><a href="#服务器出现大量-close_wait-状态的原因有哪些">服务器出现大量 CLOSE_WAIT 状态的原因有哪些？</a></li>
+    <li><a href="#服务器出现大量-time_wait-状态的原因有哪些">服务器出现大量 TIME_WAIT 状态的原因有哪些？</a></li>
+    <li><a href="#socket">SOCKET</a></li>
+    <li><a href="#tcp-半连接和全连接队列">TCP 半连接和全连接队列</a>
+      <ol>
+        <li><a href="#避免-syn-攻击方式可以有以下四种方法">避免 SYN 攻击方式，可以有以下四种方法</a></li>
+      </ol>
+    </li>
+    <li><a href="#ip">IP</a>
+      <ol>
+        <li><a href="#分类">分类</a></li>
+        <li><a href="#无分类地址-cidr">无分类地址 CIDR</a></li>
+        <li><a href="#ip-地址与路由控制">IP 地址与路由控制</a></li>
+        <li><a href="#ping工作原理">PING工作原理</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    
+<header class="article-header">
+        <div class="article-image">
+            <a href="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+                
+                    <img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image.png"
+                        
+                        width="1329" 
+                        height="802" 
+                        loading="lazy"
+                        alt="Featured image of post 计算机网络" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="../../categories/%E7%BC%96%E7%A8%8B/" >
+                编程
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2023/03/02</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 7 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="网络分层">网络分层</h2>
+<p>常见的网络模型分为OSI七层模型与TCP/IP四层模型，OSI因为比较复杂实现起来麻烦，使用的不多。通常用TCP/IP
+的四层网络模型。</p>
+<h3 id="osi模型">OSI模型</h3>
+<ul>
+<li>应用层</li>
+<li>表示层</li>
+<li>会话层</li>
+<li>传输层</li>
+<li>网络层</li>
+<li>数据链路层</li>
+<li>物理层</li>
+</ul>
+<h3 id="tcpip模型">TCP/IP模型</h3>
+<ul>
+<li>应用层：HTTP  FTP GRPC</li>
+<li>传输层：TCP UDP</li>
+<li>网络层：IP</li>
+<li>网络接口层
+<img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image.png"
+	width="1329"
+	height="802"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image_hue7adf6be507cc8c391e944aaaa332a2f_57263_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image_hue7adf6be507cc8c391e944aaaa332a2f_57263_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="165"
+		data-flex-basis="397px"
+	
+>
+<img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-1.png"
+	width="602"
+	height="782"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-1_hudc0e10b798511b17e93072a753b6f28b_111574_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-1_hudc0e10b798511b17e93072a753b6f28b_111574_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="76"
+		data-flex-basis="184px"
+	
+>
+<img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-2.png"
+	width="905"
+	height="501"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-2_hud5008bd5bcc72ce2e8ff9c4a63a3d1e8_125702_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-2_hud5008bd5bcc72ce2e8ff9c4a63a3d1e8_125702_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="180"
+		data-flex-basis="433px"
+	
+></li>
+</ul>
+<h3 id="数据包封包解包流程">数据包封包解包流程</h3>
+<p><img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-6.png"
+	width="936"
+	height="953"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-6_hub54d2c6e5e7d9b2472e7978642209de7_534704_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-6_hub54d2c6e5e7d9b2472e7978642209de7_534704_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="98"
+		data-flex-basis="235px"
+	
+></p>
+<h2 id="什么是http">什么是HTTP</h2>
+<p>超文本传输协议,是网络中最常见的通讯协议。基于传输层TCP协议构建的应用层协议，数据采用明文传输，安全性差。
+<img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-7.png"
+	width="1773"
+	height="1847"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-7_hue8ddaaae4ad1b2b506d78b9df7ede9ed_780350_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-7_hue8ddaaae4ad1b2b506d78b9df7ede9ed_780350_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="95"
+		data-flex-basis="230px"
+	
+></p>
+<h3 id="get-与-post">Get 与 Post</h3>
+<p>「幂等」，意思是多次执行相同的操作，结果都是「相同」的。</p>
+<p>「安全」是指请求方法不会「破坏」服务器上的资源。</p>
+<p>GET:从服务器获取指定的资源，这个资源可以是静态的文本、页面、图片视频等。浏览器对URL的请求长度有限制，HTTP没有。所有来说GET请求是用长度限制的。GET请求是安全幂等的。</p>
+<p>POST:新增或提交数据。因为会修改服务器上的资源所以是不安全的，因为会多次提交数据所以是不幂等的。</p>
+<h3 id="http-常见的状态码">HTTP 常见的状态码</h3>
+<p><img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-3.png"
+	width="1280"
+	height="642"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-3_hu708f162ee7cf1d9e159d272898acaf36_449945_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-3_hu708f162ee7cf1d9e159d272898acaf36_449945_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="199"
+		data-flex-basis="478px"
+	
+></p>
+<h3 id="http通过什么解决粘包问题的">HTTP通过什么解决粘包问题的</h3>
+<p>HTTP 协议通过设置回车符、换行符作为 HTTP header 的边界，通过 Content-Length 字段作为 HTTP body 的边界，这两个方式都是为了解决“粘包”的问题。</p>
+<h3 id="http和https有什么区别">HTTP和HTTPS有什么区别</h3>
+<ul>
+<li>HTTP是超文本传输协议，信息是明文传输的，存在安全问题。HTTPS则解决HTTP不安全的问题，在TCP和HTTP网络层之间加入SSL/TLS安全协议，是得报文能够加密传输。</li>
+<li>HTTP连接建立相对简单，TCP三次握手后便可进行HTTP的报文传输。而HTTPS在TCP三次握手后还需进行SSL/TLS的握手过程，才可进行加密报文传输。</li>
+<li>两者端口不一样HTTP是80端口，HTTP是443端口。</li>
+<li>HTTPS协议需要向CA(证书权威结构)申请数字证书，来保证服务器的身份是可靠的。
+<img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-4.png"
+	width="596"
+	height="275"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-4_hud3819ee1162ca798e8030c2ab8f89898_89770_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-4_hud3819ee1162ca798e8030c2ab8f89898_89770_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="216"
+		data-flex-basis="520px"
+	
+></li>
+</ul>
+<h3 id="https解决了什么问题">HTTPS解决了什么问题</h3>
+<ul>
+<li>窃听风险</li>
+<li>篡改风险</li>
+<li>冒充风险</li>
+</ul>
+<h3 id="http2改进在哪">HTTP/2改进在哪</h3>
+<p>队头堵塞：
+HTTP/2 是基于 TCP 协议来传输数据的，TCP 是字节流协议，TCP 层必须保证收到的字节数据是完整且连续的，这样内核才会将缓冲区里的数据返回给 HTTP 应用，那么当「前 1 个字节数据」没有到达时，后收到的字节数据只能存放在内核缓冲区里，只有等到这 1 个字节数据到达时，HTTP/2 应用层才能从内核中拿到数据，这就是 HTTP/2 队头阻塞问题。
+<img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-5.png"
+	width="782"
+	height="366"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-5_hu9a7a0316661331b067029f4c838cc7e0_201332_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-5_hu9a7a0316661331b067029f4c838cc7e0_201332_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="213"
+		data-flex-basis="512px"
+	
+></p>
+<ul>
+<li>兼容HTTP/1.1</li>
+<li>使用HPACK 算法压缩请求头</li>
+<li>为高频出现在头部的字符串和字段建立了一张静态表</li>
+<li>将 HTTP/1 的文本格式改成二进制格式传输数据</li>
+<li>多个 Stream 复用一条 TCP 连接，达到并发的效果，解决了 HTTP/1.1 队头阻塞的问题，提高了 HTTP 传输的吞吐量。
+缺陷</li>
+<li>队头阻塞</li>
+<li>TCP 与 TLS 的握手时延迟</li>
+<li>网络迁移需要重新连接</li>
+</ul>
+<h3 id="http3">HTTP/3</h3>
+<p>将TCP协议改成了UDP,并在UDP上开发了QUIC协议来保障数据传输的可靠性</p>
+<ul>
+<li>无队头堵塞</li>
+<li>建立连接速度更快</li>
+<li></li>
+</ul>
+<h3 id="输入网址到展示发什么了">输入网址到展示发什么了</h3>
+<ol>
+<li>解析URL地址生成HTTP请求报文</li>
+<li>进行DNS域名解析获取IP。先查看缓存如果有就直接返回
+没有再去hosts文件查看，如果再没没有则发送DNS请求询问本地的DNS服务器</li>
+<li>DNS获取到Ip后，就可以把HTTP协议的传输工作交给操作系统的协议栈
+（HTTP是基于TCP协议传输数据前，要先进行TCP三次握手）</li>
+<li>TCP 模块在执行连接、收发、断开等各阶段操作时，都需要委托 IP 模块
+将数据封装成网络包发送给通信</li>
+<li>查找mac地址，先查路由表，如果路由表没有就通过ARP协议广播查找mac地址</li>
+<li>将数据包通过网卡发送到交换机，交换机再发送到服务器</li>
+</ol>
+<h2 id="什么是tcp">什么是TCP</h2>
+<p>TCP是面向连接的、可靠的、基于字节流的传输层通信协议</p>
+<p>TCP数据格式:</p>
+<p><img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-11.png"
+	width="1053"
+	height="828"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-11_hu4c2c9b241bac8288b869a1047ce1879a_277912_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-11_hu4c2c9b241bac8288b869a1047ce1879a_277912_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="127"
+		data-flex-basis="305px"
+	
+></p>
+<h3 id="tcp的三次握手和四次挥手">TCP的三次握手和四次挥手</h3>
+<p><code>TCP三次握手中，只有第三次握手是可以携带数据的，前两次握手是不可以携带数据的</code>
+<img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-10.png"
+	width="1896"
+	height="695"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-10_hu95dbf7b7a2a2db93ba47892033001e1e_183157_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-10_hu95dbf7b7a2a2db93ba47892033001e1e_183157_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="272"
+		data-flex-basis="654px"
+	
+>
+<img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-9.png"
+	width="1568"
+	height="690"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-9_hu85371eb823b80f53d3bbcfd8dc37f4fd_178660_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-9_hu85371eb823b80f53d3bbcfd8dc37f4fd_178660_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="227"
+		data-flex-basis="545px"
+	
+></p>
+<ol>
+<li>第一次握手丢失了，会发生什么</li>
+</ol>
+<p>客户端迟迟收不到服务端的 SYN-ACK 报文（第二次握手），就会触发「超时重传」机制，重传 SYN 报文，而且重传的 SYN 报文的序列号都是一样的。每次超时的时间是上一次的 2 倍。</p>
+<ol start="2">
+<li>第二次握手丢失了</li>
+</ol>
+<p>客户端和服务端都会重传</p>
+<ol start="3">
+<li>服务端那一方迟迟收不到这个ACK确认报文，就会触发超时重传机制
+<code>(ACK 报文是不会有重传的，当 ACK 丢失了，就由对方重传对应的报文)</code></li>
+</ol>
+<h3 id="为什么挥手需要四次">为什么挥手需要四次？</h3>
+<ul>
+<li>关闭连接时，客户端向服务端发送 FIN 时，仅仅表示客户端不再发送数据了但是还能接收数据。</li>
+<li>服务端收到客户端的 FIN 报文时，先回一个 ACK 应答报文，而服务端可能还有数据需要处理和发送，等服务端不再发送数据时，才发送 FIN 报文给客户端来表示同意现在关闭连接。</li>
+</ul>
+<ol>
+<li>第一次挥手丢失</li>
+</ol>
+<p>客户端迟迟收不到被动方的 ACK 的话,触发客户端重传FIN</p>
+<ol start="2">
+<li>第二挥手丢失</li>
+</ol>
+<p>服务端的第二次挥手丢失了，客户端就会触发超时重传机制,重传 FIN 报文</p>
+<ol start="3">
+<li>第三次挥手丢失</li>
+</ol>
+<p>服务端就会重发 FIN 报文</p>
+<ol start="4">
+<li>第四次挥手丢失</li>
+</ol>
+<p>客户收到FIN报文消息后，回复ACK确认消息。回复的ACK未到达服务器，服务端就会重发 FIN 报文。</p>
+<h2 id="什么是udp">什么是UDP</h2>
+<p>UDP 不提供复杂的控制机制，利用 IP 提供面向「无连接」的通信服务。DNS采用UDP协议</p>
+<p>UDP的数据格式：</p>
+<p><img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-12.png"
+	width="783"
+	height="468"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-12_hucdb8ebd0ec250ba1d90fd88c9688f89c_139876_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-12_hucdb8ebd0ec250ba1d90fd88c9688f89c_139876_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="167"
+		data-flex-basis="401px"
+	
+></p>
+<h3 id="tcp和udp的区别">TCP和UDP的区别</h3>
+<ol>
+<li>连接</li>
+</ol>
+<ul>
+<li>TCP是面向连接的传输层协议，传输数据前要先建立连接</li>
+<li>UDP是不需要连接，即刻传输数据</li>
+</ul>
+<ol start="2">
+<li>服务对象</li>
+</ol>
+<ul>
+<li>TCP是一对一的两点服务，即一条连接只有两个端点</li>
+<li>UDP支持一对一、一对多、多对多的交互通信</li>
+</ul>
+<ol start="3">
+<li>可靠性
+-TCP 是可靠交付数据的，数据可以无差错、不丢失、不重复、按序到达
+-UDP是尽最大努力交付，不保证可靠交付数据。但我们可以基于UDP传输协议实现一个可靠的传输协议，比如QUIC协议。</li>
+<li>拥塞控制、流量控制</li>
+</ol>
+<ul>
+<li>TCP有拥塞控制和流量控制，保证数据传输的安全性</li>
+<li>UDP则没有，即使网络非常堵了，也不会影响UDP的转发速率
+5.首部开销</li>
+<li>TCP首部长度较长，会有一定的开销</li>
+<li>UDP首部只有8个字节，并且是固定不变的开销小</li>
+</ul>
+<h2 id="为什么需要-time_wait-状态">为什么需要 TIME_WAIT 状态？</h2>
+<p>保证被关闭的一方能被正常关闭</p>
+<h2 id="为什么-time_wait-等待的时间是-2msl">为什么 TIME_WAIT 等待的时间是 2MSL</h2>
+<p>TODO</p>
+<h2 id="服务器出现大量-close_wait-状态的原因有哪些">服务器出现大量 CLOSE_WAIT 状态的原因有哪些？</h2>
+<p>当服务端出现大量 CLOSE_WAIT 状态的连接的时候，说明服务端的程序没有调用 close 函数关闭连接。</p>
+<h2 id="服务器出现大量-time_wait-状态的原因有哪些">服务器出现大量 TIME_WAIT 状态的原因有哪些？</h2>
+<p>说明服务器主动断开了很多 TCP 连接。</p>
+<p>第一个场景：HTTP 没有使用长连接<br>
+第二个场景：HTTP 长连接超时<br>
+第三个场景：HTTP 长连接的请求数量达到上限</p>
+<h2 id="socket">SOCKET</h2>
+<ul>
+<li>每一个socket执行listen时，内核都会自动创建一个半连接队列和全连接队列。</li>
+<li>第三次握手前，TCP连接会放在半连接队列中，直到第三次握手到来，才会被放到全连接队列中。</li>
+<li>accept方法只是为了从全连接队列中拿出一条连接，本身跟三次握手几乎毫无关系。</li>
+<li>出于效率考虑，虽然都叫队列，但半连接队列其实被设计成了哈希表，而全连接队列本质是链表。</li>
+<li>全连接队列满了，再来第三次握手也会丢弃，此时如果tcp_abort_on_overflow=1，还会直接发RST给客户端。</li>
+<li>半连接队列满了，可能是因为受到了SYN Flood攻击，可以设置tcp_syncookies，绕开半连接队列。</li>
+<li>客户端没有半连接队列和全连接队列，但有一个全局hash，可以通过它实现自连接或TCP同时打开。</li>
+</ul>
+<h2 id="tcp-半连接和全连接队列">TCP 半连接和全连接队列</h2>
+<p>在TCP三次握手的时候。Linux内核会维护两个队列，分别是：</p>
+<ul>
+<li>半连接队列，也称SYN队列</li>
+<li>全连接队列,也成ACCEPT队列</li>
+</ul>
+<p>半连接队列与全连接队列的工作流程:
+<img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-13.png"
+	width="737"
+	height="519"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-13_huf74a98a048061ca50ed424c97e786bb1_148722_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-13_huf74a98a048061ca50ed424c97e786bb1_148722_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="142"
+		data-flex-basis="340px"
+	
+></p>
+<h3 id="避免-syn-攻击方式可以有以下四种方法">避免 SYN 攻击方式，可以有以下四种方法</h3>
+<p>SYN攻击是未知客户端一直向服务器发送SYN报文，将半连接队列撑满。</p>
+<ul>
+<li>增大TCP的半连接队列</li>
+<li>减少SYN+ACK的重传次数</li>
+<li>调大 netdev_max_backlog</li>
+<li>开启 tcp_syncookies</li>
+</ul>
+<h2 id="ip">IP</h2>
+<p>IP 则负责在「没有直连」的两个网络之间进行通信传输
+<img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-14.png"
+	width="903"
+	height="453"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-14_hud63107f898987fca9f53a13df30cc382_190456_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-14_hud63107f898987fca9f53a13df30cc382_190456_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="199"
+		data-flex-basis="478px"
+	
+></p>
+<h3 id="分类">分类</h3>
+<p>IP地址分为A B C D E 五大类。A、B、C 类主要分为两个部分，分别是网络号和主机号
+<img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-15.png"
+	width="813"
+	height="759"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-15_hu6c7016722c1b1b13bc93afb65de498e5_283407_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-15_hu6c7016722c1b1b13bc93afb65de498e5_283407_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="107"
+		data-flex-basis="257px"
+	
+>
+<img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-16.png"
+	width="498"
+	height="1173"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-16_hu139c5d424195481a8cf762a01a2d66e1_238295_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-16_hu139c5d424195481a8cf762a01a2d66e1_238295_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="42"
+		data-flex-basis="101px"
+	
+></p>
+<h3 id="无分类地址-cidr">无分类地址 CIDR</h3>
+<p>因为 IP 分类存在许多缺点，所以后面提出了无分类地址的方案，即 CIDR。<br>
+这种方式不再有分类地址的概念，32 比特的 IP 地址被划分为两部分，前面是网络号，后面是主机号。</p>
+<p><code> a.b.c.d/x，其中 /x 表示前 x 位属于网络号， x 的范围是 0 ~ 32</code>
+10.100.122.2/24，这种地址表示形式就是 CIDR，/24 表示前 24 位是网络号，剩余的 8 位是主机号。</p>
+<p>子网掩码:</p>
+<p>另一种划分网络号与主机号形式，那就是子网掩码，掩码的意思就是掩盖掉主机号，剩余的就是网络号。<br>
+将子网掩码和 IP 地址按位计算 AND，就可得到网络号。</p>
+<p><img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-17.png"
+	width="521"
+	height="481"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-17_hu1267da1aadaad8a095709bc02dd1552f_166566_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-17_hu1267da1aadaad8a095709bc02dd1552f_166566_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="108"
+		data-flex-basis="259px"
+	
+></p>
+<h3 id="ip-地址与路由控制">IP 地址与路由控制</h3>
+<p><img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-18.png"
+	width="1416"
+	height="902"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-18_hucd23b62d07ad2a7ae677baba820b13a8_500056_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-18_hucd23b62d07ad2a7ae677baba820b13a8_500056_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="156"
+		data-flex-basis="376px"
+	
+></p>
+<h3 id="ping工作原理">PING工作原理</h3>
+<p>ICMP: 确认 IP 包是否成功送达目标地址、报告发送过程中 IP 包被废弃的原因和改善网络设置等。
+<img src="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-19.png"
+	width="1824"
+	height="1592"
+	srcset="../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-19_hu06751cc62f940ba7b932fb5a772a4109_218368_480x0_resize_box_3.png 480w, ../../p/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/image-19_hu06751cc62f940ba7b932fb5a772a4109_218368_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="114"
+		data-flex-basis="274px"
+	
+>
+1.客户端在网络层封装IP报文、ICMP标识为8的回送请求报文发送给指定服务器<br>
+2.路由器接收到报文消息后先查路由表如果没有该IP指定的MAC地址<br>
+使用ARP协议广播获取MAC地址<br>
+3.如果能连接上就反回ICMP 为0的回复应答报文<br>
+4.不能连接上，路由器回复ICMP 异常报文</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="../../tags/%E7%BD%91%E7%BB%9C/">网络</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="../../p/100gomistakes/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">100GoMistakes</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="../../p/mongodb%E5%AD%A6%E4%B9%A0/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="../../image.png" loading="lazy" data-key="" data-hash="/image.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">mongodb学习</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="../../p/solidity%E5%BC%82%E5%B8%B8%E8%AE%B0%E5%BD%95/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">solidity异常记录</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="../../p/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%A1%E8%AE%A1/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">智能合约审计</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="../../p/uniswap/">
+        
+        
+            <div class="article-image">
+                <img src="../../p/uniswap/image.78ea7c20d12d123b051610b7af6e8593.png" 
+                        width="558" 
+                        height="1395" 
+                        loading="lazy"
+                        alt="Featured image of post Uniswap"
+                        
+                        data-hash="md5-eOp8INEtEjsFFhC3r26Fkw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Uniswap</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src='//unpkg.com/@waline/client@v2/dist/waline.js'></script>
+<link href='//unpkg.com/@waline/client@v2/dist/waline.css' rel='stylesheet'/>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+        --waline-font-size: var(--article-font-size);
+    }
+    .waline-container .wl-count {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    Waline.init({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/tieba","https://cdn.jsdelivr.net/gh/walinejs/emojis/qq","https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/alus","https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"屑莹","placeholder":"网友评论区."},"pageview":true,"requiredMeta":["name","email"],"serverURL":"https://waline-1-f2033612.deta.app/","visitor":false});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2026 吴生有涯
+    </section>
+
+    
+	
+	<script defer src="https://busuanzi.9420.ltd/js"></script>
+        本文总阅读量 <span id="busuanzi_page_pv"></span> 次
+        本文总访客量 <span id="busuanzi_page_uv"></span> 人
+        本站总访问量 <span id="busuanzi_site_pv"></span> 次
+        本站总访客数 <span id="busuanzi_site_uv"></span> 人
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="../../ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

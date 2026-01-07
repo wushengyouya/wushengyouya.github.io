@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='docker定义 命令解读 常见命令 docker pull 拉取 docker push 推送镜像到镜像仓库 docker build docker save docker load 本地加载镜像 docker images 查看所有镜像 docker rmi 移除镜像 docker logs docker run 创建并运行一个容器'>
+<title>docker学习</title>
+
+<link rel='canonical' href='https://wushengyouya.github.io/p/docker%E5%AD%A6%E4%B9%A0/'>
+
+<link rel="stylesheet" href="../../scss/style.min.4b0eac42a68e0a3548daa75c0ea06b5b77a0ac03a212a6bbe41eb5846cbcb5c6.css"><meta property='og:title' content='docker学习'>
+<meta property='og:description' content='docker定义 命令解读 常见命令 docker pull 拉取 docker push 推送镜像到镜像仓库 docker build docker save docker load 本地加载镜像 docker images 查看所有镜像 docker rmi 移除镜像 docker logs docker run 创建并运行一个容器'>
+<meta property='og:url' content='https://wushengyouya.github.io/p/docker%E5%AD%A6%E4%B9%A0/'>
+<meta property='og:site_name' content='吴生有涯'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='docker' /><meta property='article:published_time' content='2023-01-22T23:32:50&#43;08:00'/><meta property='article:modified_time' content='2023-01-22T23:32:50&#43;08:00'/><meta property='og:image' content='https://wushengyouya.github.io/p/docker%E5%AD%A6%E4%B9%A0/111065478_p0.png' />
+<meta name="twitter:title" content="docker学习">
+<meta name="twitter:description" content="docker定义 命令解读 常见命令 docker pull 拉取 docker push 推送镜像到镜像仓库 docker build docker save docker load 本地加载镜像 docker images 查看所有镜像 docker rmi 移除镜像 docker logs docker run 创建并运行一个容器"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://wushengyouya.github.io/p/docker%E5%AD%A6%E4%B9%A0/111065478_p0.png' />
+    <link rel="shortcut icon" href="../../img/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "light");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="../../">
+                
+                    
+                    
+                    
+                        
+                        <img src="../../img/avatar_hu6884e68a33b95cdefc80892295f86f1e_979017_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="../../">吴生有涯</a></h1>
+            <h2 class="site-description">落霞与孤鹜齐飞</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href=''
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='../../index.xml'
+                        target="_blank"
+                        title="RSS"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="5" cy="19" r="1" />
+  <path d="M4 4a16 16 0 0 1 16 16" />
+  <path d="M4 11a9 9 0 0 1 9 9" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='../../' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#docker定义">docker定义</a></li>
+    <li><a href="#常见命令">常见命令</a></li>
+    <li><a href="#数据卷">数据卷</a></li>
+    <li><a href="#自定义镜像">自定义镜像</a></li>
+    <li><a href="#网络">网络</a></li>
+    <li><a href="#docker-compose">docker compose</a>
+      <ol>
+        <li><a href="#更新docker-compose中的某个镜像">更新docker compose中的某个镜像</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    
+<header class="article-header">
+        <div class="article-image">
+            <a href="../../p/docker%E5%AD%A6%E4%B9%A0/">
+                
+                    <img src="../../p/docker%E5%AD%A6%E4%B9%A0/111065478_p0.png"
+                        
+                        width="1024" 
+                        height="1024" 
+                        loading="lazy"
+                        alt="Featured image of post docker学习" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="../../categories/%E7%BC%96%E7%A8%8B/" >
+                编程
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="../../p/docker%E5%AD%A6%E4%B9%A0/">docker学习</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2023/01/22</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="docker定义">docker定义</h2>
+<p><img src="../../p/docker%E5%AD%A6%E4%B9%A0/image-1.png"
+	width="3105"
+	height="1624"
+	srcset="../../p/docker%E5%AD%A6%E4%B9%A0/image-1_huebfa00574c89ffb67a4f4b418e7e23a0_1373763_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-1_huebfa00574c89ffb67a4f4b418e7e23a0_1373763_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="191"
+		data-flex-basis="458px"
+	
+></p>
+<p>命令解读
+<img src="../../p/docker%E5%AD%A6%E4%B9%A0/image.png"
+	width="3283"
+	height="1638"
+	srcset="../../p/docker%E5%AD%A6%E4%B9%A0/image_hud3381957a71771a636ee1cc64babc5a5_999975_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image_hud3381957a71771a636ee1cc64babc5a5_999975_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="200"
+		data-flex-basis="481px"
+	
+></p>
+<h2 id="常见命令">常见命令</h2>
+<p><img src="../../p/docker%E5%AD%A6%E4%B9%A0/image-2.png"
+	width="3254"
+	height="1588"
+	srcset="../../p/docker%E5%AD%A6%E4%B9%A0/image-2_hu85dfa1c76fc990522c04427124308c5d_795699_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-2_hu85dfa1c76fc990522c04427124308c5d_795699_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="204"
+		data-flex-basis="491px"
+	
+></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">    docker pull 拉取
+</span></span><span class="line"><span class="cl">    docker push 推送镜像到镜像仓库
+</span></span><span class="line"><span class="cl">    docker build 
+</span></span><span class="line"><span class="cl">    docker save
+</span></span><span class="line"><span class="cl">    docker load 本地加载镜像
+</span></span><span class="line"><span class="cl">    docker images 查看所有镜像
+</span></span><span class="line"><span class="cl">    docker rmi 移除镜像
+</span></span><span class="line"><span class="cl">    docker logs
+</span></span><span class="line"><span class="cl">    docker run 创建并运行一个容器
+</span></span><span class="line"><span class="cl">    docker start 开启容器
+</span></span><span class="line"><span class="cl">    docker stop
+</span></span><span class="line"><span class="cl">    docker ps 查看运行的容器
+</span></span><span class="line"><span class="cl">    docker rm 移除容器  -f <span class="c1">#后面跟-f 强制删除</span>
+</span></span><span class="line"><span class="cl">    docker <span class="nb">exec</span> -it 容器名 bash/其它    <span class="c1">#进入容器内部，运行命令行</span>
+</span></span><span class="line"><span class="cl">    docker search 
+</span></span><span class="line"><span class="cl">    docker volume
+</span></span></code></pre></div><h2 id="数据卷">数据卷</h2>
+<p><img src="../../p/docker%E5%AD%A6%E4%B9%A0/image-3.png"
+	width="1851"
+	height="940"
+	srcset="../../p/docker%E5%AD%A6%E4%B9%A0/image-3_hub603d0639f7c298c9827f9c4de758468_367763_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-3_hub603d0639f7c298c9827f9c4de758468_367763_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="196"
+		data-flex-basis="472px"
+	
+>
+命令
+<img src="../../p/docker%E5%AD%A6%E4%B9%A0/image-4.png"
+	width="1817"
+	height="794"
+	srcset="../../p/docker%E5%AD%A6%E4%B9%A0/image-4_huca432354419ec128cdbbe491050311e8_294375_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-4_huca432354419ec128cdbbe491050311e8_294375_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="228"
+		data-flex-basis="549px"
+	
+></p>
+<p>挂载到本地目录
+<img src="../../p/docker%E5%AD%A6%E4%B9%A0/image-5.png"
+	width="1613"
+	height="890"
+	srcset="../../p/docker%E5%AD%A6%E4%B9%A0/image-5_hud6bedae48c2ff19ddfc51e169b8aa512_448871_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-5_hud6bedae48c2ff19ddfc51e169b8aa512_448871_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="181"
+		data-flex-basis="434px"
+	
+></p>
+<ul>
+<li>linux 创建命令别名   <em>vi ~/.bashrc</em></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">    docker run -d <span class="se">\ </span><span class="c1">#创建并运行一个容器,-d 为后台运行</span>
+</span></span><span class="line"><span class="cl">    --name mysql <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -p 3306:3306 <span class="se">\ </span><span class="c1">#设置端口映射</span>
+</span></span><span class="line"><span class="cl">    -e <span class="nv">TZ</span><span class="o">=</span>Asia/Shanghai
+</span></span><span class="line"><span class="cl">    -e <span class="nv">MYSQL_ROOT_PASSWORD</span><span class="o">=</span><span class="m">123</span>
+</span></span><span class="line"><span class="cl">    -v /root/mysql/data:/var/lib/mysql
+</span></span><span class="line"><span class="cl">    -v /root/mysql/init:/docker-entrypoint-initdb.d
+</span></span><span class="line"><span class="cl">    -v /root/mysql/conf:/etc/mysql/conf.d
+</span></span><span class="line"><span class="cl">    mysql:5.7 <span class="c1">#镜像名:版本号</span>
+</span></span></code></pre></div><h2 id="自定义镜像">自定义镜像</h2>
+<p><img src="../../p/docker%E5%AD%A6%E4%B9%A0/image-9.png"
+	width="1792"
+	height="1262"
+	srcset="../../p/docker%E5%AD%A6%E4%B9%A0/image-9_hu49ab31e4e5362179d299671bf6c1aac2_478611_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-9_hu49ab31e4e5362179d299671bf6c1aac2_478611_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="141"
+		data-flex-basis="340px"
+	
+>
+<img src="../../p/docker%E5%AD%A6%E4%B9%A0/image-6.png"
+	width="3473"
+	height="1615"
+	srcset="../../p/docker%E5%AD%A6%E4%B9%A0/image-6_hucf0f5b2802fd08289e976cadaa356936_1359276_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-6_hucf0f5b2802fd08289e976cadaa356936_1359276_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="215"
+		data-flex-basis="516px"
+	
+>
+dockerfile
+<img src="../../p/docker%E5%AD%A6%E4%B9%A0/image-7.png"
+	width="3232"
+	height="1450"
+	srcset="../../p/docker%E5%AD%A6%E4%B9%A0/image-7_hu879a7a4b13b9a0384bff19c2cf4c4687_990143_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-7_hu879a7a4b13b9a0384bff19c2cf4c4687_990143_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="222"
+		data-flex-basis="534px"
+	
+>
+以java为例
+<img src="../../p/docker%E5%AD%A6%E4%B9%A0/image-8.png"
+	width="2264"
+	height="1418"
+	srcset="../../p/docker%E5%AD%A6%E4%B9%A0/image-8_hud228e7a9b0b0c5067da5d90eb7c2c47d_829783_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-8_hud228e7a9b0b0c5067da5d90eb7c2c47d_829783_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="159"
+		data-flex-basis="383px"
+	
+></p>
+<h2 id="网络">网络</h2>
+<p>加入同一网络的docker容器可以通过名字进行访问
+<img src="../../p/docker%E5%AD%A6%E4%B9%A0/image-10.png"
+	width="2943"
+	height="1550"
+	srcset="../../p/docker%E5%AD%A6%E4%B9%A0/image-10_hu4424835355fa8db2c9ad4540da416f42_1022728_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-10_hu4424835355fa8db2c9ad4540da416f42_1022728_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="189"
+		data-flex-basis="455px"
+	
+></p>
+<h2 id="docker-compose">docker compose</h2>
+<p><img src="../../p/docker%E5%AD%A6%E4%B9%A0/image-11.png"
+	width="2622"
+	height="1627"
+	srcset="../../p/docker%E5%AD%A6%E4%B9%A0/image-11_hud2f36b2908cd47d407daad0976f4dcbc_796913_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-11_hud2f36b2908cd47d407daad0976f4dcbc_796913_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="161"
+		data-flex-basis="386px"
+	
+></p>
+<p>docker run -d <br>
+&ndash;name mysql <br>
+-p 3306:3306 <br>
+-e TZ=Asia/Shanghai <br>
+-e MYSQL_ROOT_PASSWORD=123 <br>
+-v /root/mysql/data:/var/lib/mysql <br>
+-v /root/mysql/init:/docker-entrypoint-initdb.d <br>
+-v /root/mysql/conf:/etc/mysql/conf.d <br>
+mysql</p>
+<h3 id="更新docker-compose中的某个镜像">更新docker compose中的某个镜像</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 1.本地保存镜像文件为另一个版本号</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 编译</span>
+</span></span><span class="line"><span class="cl">docker build -t metaverse:1.1 .
+</span></span><span class="line"><span class="cl"><span class="c1"># 保存</span>
+</span></span><span class="line"><span class="cl">docker save metaverse:1.1 &gt; metaverse_v1.2.tar
+</span></span><span class="line"><span class="cl"><span class="c1"># 2.上传本地保存的rar镜像文件</span>
+</span></span><span class="line"><span class="cl">sudo rz
+</span></span><span class="line"><span class="cl"><span class="c1"># 3.加载镜像</span>
+</span></span><span class="line"><span class="cl">docker load -i metaverse_v1.1.tar
+</span></span><span class="line"><span class="cl"><span class="c1"># 4.修改docker-compose.yaml文件的镜像版本号</span>
+</span></span><span class="line"><span class="cl">vim docker-compose.yaml
+</span></span><span class="line"><span class="cl"><span class="c1"># 5.重新编译docker-compose的某一个镜像</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># -d 为后台运行 --no-deps 不启动链接的服务</span>
+</span></span><span class="line"><span class="cl">docker compose -f <span class="o">[</span>*.yaml<span class="o">]</span> up -d --no-deps --build <span class="o">[</span>镜像名<span class="o">]</span>
+</span></span><span class="line"><span class="cl">docker compose -f ./metaverse_docker-compose.yaml up -d --no-deps --build metaverse
+</span></span><span class="line"><span class="cl"><span class="c1"># 6.查看Logs</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看当前compose.yaml文件下的所有镜像</span>
+</span></span><span class="line"><span class="cl">docker compose -f ./metaverse_docker-compose.yaml ps --services
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看指定镜像的Log</span>
+</span></span><span class="line"><span class="cl">docker compose -f ./metaverse_docker-compose.yaml logs -f metaverse
+</span></span></code></pre></div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="../../tags/docker/">docker</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="../../p/100gomistakes/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">100GoMistakes</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="../../p/mongodb%E5%AD%A6%E4%B9%A0/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="../../image.png" loading="lazy" data-key="" data-hash="/image.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">mongodb学习</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="../../p/solidity%E5%BC%82%E5%B8%B8%E8%AE%B0%E5%BD%95/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">solidity异常记录</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="../../p/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%A1%E8%AE%A1/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">智能合约审计</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="../../p/uniswap/">
+        
+        
+            <div class="article-image">
+                <img src="../../p/uniswap/image.78ea7c20d12d123b051610b7af6e8593.png" 
+                        width="558" 
+                        height="1395" 
+                        loading="lazy"
+                        alt="Featured image of post Uniswap"
+                        
+                        data-hash="md5-eOp8INEtEjsFFhC3r26Fkw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Uniswap</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src='//unpkg.com/@waline/client@v2/dist/waline.js'></script>
+<link href='//unpkg.com/@waline/client@v2/dist/waline.css' rel='stylesheet'/>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+        --waline-font-size: var(--article-font-size);
+    }
+    .waline-container .wl-count {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    Waline.init({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/tieba","https://cdn.jsdelivr.net/gh/walinejs/emojis/qq","https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/alus","https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"屑莹","placeholder":"网友评论区."},"pageview":true,"requiredMeta":["name","email"],"serverURL":"https://waline-1-f2033612.deta.app/","visitor":false});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2026 吴生有涯
+    </section>
+
+    
+	
+	<script defer src="https://busuanzi.9420.ltd/js"></script>
+        本文总阅读量 <span id="busuanzi_page_pv"></span> 次
+        本文总访客量 <span id="busuanzi_page_uv"></span> 人
+        本站总访问量 <span id="busuanzi_site_pv"></span> 次
+        本站总访客数 <span id="busuanzi_site_uv"></span> 人
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="../../ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
