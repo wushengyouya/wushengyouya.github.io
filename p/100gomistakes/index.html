@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='100 Go Mistakes And How To Avoid Them笔记'>
+<title>100GoMistakes</title>
+
+<link rel='canonical' href='https://wushengyouya.github.io/p/100gomistakes/'>
+
+<link rel="stylesheet" href="../../scss/style.min.4b0eac42a68e0a3548daa75c0ea06b5b77a0ac03a212a6bbe41eb5846cbcb5c6.css"><meta property='og:title' content='100GoMistakes'>
+<meta property='og:description' content='100 Go Mistakes And How To Avoid Them笔记'>
+<meta property='og:url' content='https://wushengyouya.github.io/p/100gomistakes/'>
+<meta property='og:site_name' content='吴生有涯'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='go' /><meta property='article:published_time' content='2026-01-05T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-01-05T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="100GoMistakes">
+<meta name="twitter:description" content="100 Go Mistakes And How To Avoid Them笔记">
+    <link rel="shortcut icon" href="../../img/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "light");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="../../">
+                
+                    
+                    
+                    
+                        
+                        <img src="../../img/avatar_hu6884e68a33b95cdefc80892295f86f1e_979017_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="../../">吴生有涯</a></h1>
+            <h2 class="site-description">落霞与孤鹜齐飞</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href=''
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='../../index.xml'
+                        target="_blank"
+                        title="RSS"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="5" cy="19" r="1" />
+  <path d="M4 4a16 16 0 0 1 16 16" />
+  <path d="M4 11a9 9 0 0 1 9 9" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='../../' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#100-go-mistakes-and-how-to-avoid-them">100 Go Mistakes And How To Avoid Them</a></li>
+    <li><a href="#切片">切片</a></li>
+    <li><a href="#并发">并发</a></li>
+    <li><a href="#数据库">数据库</a></li>
+    <li><a href="#测试">测试</a></li>
+    <li><a href="#内存优化">内存优化</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    
+<header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="../../categories/%E7%BC%96%E7%A8%8B/" >
+                编程
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="../../p/100gomistakes/">100GoMistakes</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            100 Go Mistakes And How To Avoid Them笔记
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2026/01/05</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 18 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="100-go-mistakes-and-how-to-avoid-them">100 Go Mistakes And How To Avoid Them</h2>
+<p>1、避免使用遮挡变量</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">i</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">get</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">i</span> <span class="o">:=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>2、通过避免嵌套层级并将主路径保持在左侧</p>
+<p>3、init函数不能处理error，当有多个init函数先加载依赖项的init(按照文件名字母表的顺序)</p>
+<p>4、抽象是被发现的，而不是创建的。</p>
+<p>5、接口尽量在使用端，而不是在生产端</p>
+<p>6、函数不应该返回抽象而是具体的实现，而参数尽可能的使用接口作为参数</p>
+<p>7、尽量不使用<code>any</code>类型，因为它提供有意思的信息，尽在需要进行序列化的使用<code>any</code></p>
+<p>8、当有多个参数需要配置时，可以采用功能选项模式。(function option)</p>
+<p>9、创建包名时应该可以直观的明白这个包时做什么的，避免使用泛化包名如util、base、common</p>
+<p>10、对于可以在外部访问的变量与函数都需要注释</p>
+<ul>
+<li>变量和常量: 注释用途和内容</li>
+<li>函数和方法：注释函数用途而非实现方式</li>
+</ul>
+<p>11、使用静态代码分析工具检测代码如<a class="link" href="https://golang.org/cmd/vet/"  target="_blank" rel="noopener"
+    >vet</a>、<a class="link" href="https://golangci-lint.run/docs/linters/"  target="_blank" rel="noopener"
+    >golangci-lint</a></p>
+<p>12、在go中<code>0o</code>代表8进制,<code>0B | 0b</code>代表二进制,<code>0x</code>代表十六进制,<code>i</code>后缀代表虚数</p>
+<p>13、go中整数上溢和下溢都是隐式的，可以使用<code>math.MaxInt</code>,<code>math.MinInt</code>,<code>math.MaxUint</code>构建函数检测</p>
+<p>14、浮点数在加减运算时应将数量级相近的操作分组以提高准确性，乘除运算应在加减运算前进行以提高准确性</p>
+<h2 id="切片">切片</h2>
+<ul>
+<li>切片的长度是当前可以获取的元素数，容量是可以存储的元素数。当元素存储满时底层会创建一个新的数组，容量在元素在1024以内成倍扩容，超过后每次扩容1/4</li>
+<li>当创建切片时如果已知长度，make时指定长度，减少内存分配提升性能。同样适用于创建map的时候</li>
+<li>复制一个切片到另一个切片使用<code>copy</code>函数，复制的元素数取决于两个切片中最小的长度</li>
+<li><code>str[1:5]</code>使用切片表达式缩减切片，底层都是指向同一个数组，如果缩减一个大切片时可能会发生内存泄漏。可以使用<code>copy</code>或<br>
+完整的切片表达式<code>str[1:5:2]</code>缩减大切片必须使用<code>copy</code></li>
+<li>在处理切片时需要记住，如果元素是指针或者是包含指针资源的结构体，这些元素将不会被gc回收，使用下面方法避免内存泄漏。<br>
+清除方法: 1.手动置为nil 2.使用<code>copy</code>而不是reslice</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// 示例1：指针切片
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 创建包含指针的切片
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">items</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="o">*</span><span class="nx">Item</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 添加一些指针元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">items</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">items</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">Item</span><span class="p">{</span><span class="nx">data</span><span class="p">:</span> <span class="s">&#34;data1&#34;</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="nx">items</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">items</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">Item</span><span class="p">{</span><span class="nx">data</span><span class="p">:</span> <span class="s">&#34;data2&#34;</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 假设我们&#34;删除&#34;第一个元素
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 手动清除方法 items[0] = nil
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 使用copy
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nb">copy</span><span class="p">(</span><span class="nx">item</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="nx">item</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+</span></span><span class="line"><span class="cl"><span class="nx">items</span> <span class="p">=</span> <span class="nx">items</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>  <span class="c1">// 现在 items 只有 data2
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 问题：底层数组仍然引用着 data1 的指针！
+</span></span></span><span class="line"><span class="cl"><span class="c1">// data1 指向的内存不会被GC回收
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">///////////////////////////////////////////////////////
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 示例2：包含指针字段的结构体
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 问题：底层数组仍然引用着 data1 的指针！
+</span></span></span><span class="line"><span class="cl"><span class="c1">// data1 指向的内存不会被GC回收
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">User</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">Name</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">Data</span> <span class="o">*</span><span class="nx">Data</span>  <span class="c1">// 指针字段！
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">users</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="nx">User</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">users</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">users</span><span class="p">,</span> <span class="nx">User</span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span> <span class="s">&#34;Alice&#34;</span><span class="p">,</span> <span class="nx">Data</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">Data</span><span class="p">{</span><span class="nx">value</span><span class="p">:</span> <span class="mi">100</span><span class="p">}})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 删除元素后，Data指针仍然被底层数组引用
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">users</span> <span class="p">=</span> <span class="nx">users</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+</span></span></code></pre></div><ul>
+<li>使用<code>append</code>后，如果结果切片的长度小于容量，会改变原始切片</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">s</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">f</span><span class="p">(</span><span class="nx">s</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="c1">// [1,2,10]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">f</span><span class="p">(</span><span class="nx">s</span> <span class="p">[]</span><span class="kt">int</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">_</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm">// append操作分析：
+</span></span></span><span class="line"><span class="cl"><span class="cm">1. 检查容量：len=2, cap=3，容量足够
+</span></span></span><span class="line"><span class="cl"><span class="cm">2. 不创建新数组，直接使用原底层数组
+</span></span></span><span class="line"><span class="cl"><span class="cm">3. 在原底层数组索引2位置写入10
+</span></span></span><span class="line"><span class="cl"><span class="cm">4. 返回新切片：len=3, cap=3
+</span></span></span><span class="line"><span class="cl"><span class="cm">
+</span></span></span><span class="line"><span class="cl"><span class="cm">内存布局变化:
+</span></span></span><span class="line"><span class="cl"><span class="cm">索引:  0   1   2
+</span></span></span><span class="line"><span class="cl"><span class="cm">前:   [1] [2] [3]
+</span></span></span><span class="line"><span class="cl"><span class="cm">后:   [1] [2] [10]  // 索引2的值被覆盖了！
+</span></span></span><span class="line"><span class="cl"><span class="cm">
+</span></span></span><span class="line"><span class="cl"><span class="cm">// 注意：_ = append(s, 10)
+</span></span></span><span class="line"><span class="cl"><span class="cm">// 虽然我们忽略了返回值，但底层数组已经被修改了！
+</span></span></span><span class="line"><span class="cl"><span class="cm">*/</span>
+</span></span></code></pre></div><ul>
+<li>记住多个切片可能共享同一个底层数组</li>
+<li>检查切片是否包含元素使用<code>len</code>函数，nil与empty切片都返回0.同样适用于map</li>
+</ul>
+<p>16、map只会增长不会进行收缩，如果要避免内存泄漏，可以使用指针存储或者创建一个新map</p>
+<p>17、使用<code>==</code>或<code>!=</code>可以对boolean,numeral,string,pointer,channel,struct进行比较，对于是maps和slice可以使用<code>reflect.DeepEqual</code>进行比较</p>
+<p>18、<code>for...range</code>中所有值皆为复制的，如果想要修改值使用索引访问，或者是循环的指针</p>
+<p>19、<code>range</code> 后面的值当执行时会复制一次,无论其是什么类型都是复制的值</p>
+<p>29、<code>for...range</code>中所有数据值都会被分配到具有唯一地址的变量中。因此，如果每次遍历时都存储指向该变量的指针，就会陷入“同一指针指向同一元素”的循环陷阱
+——即始终指向最新元素。解决方法有两种：要么在循环作用域内强制创建局部变量，要么通过索引创建指向切片元素的指针。</p>
+<p>30、map进行迭代和插入都是无序的，无法保证顺序。</p>
+<ul>
+<li>假设对一个map插入abcde,迭代出abced cedba都是可能的</li>
+</ul>
+<p>31、不要在循环中使用<code>defer</code>，它会将语句在函数返回之后再执行。如果一定要在循环中使用<code>defer</code>可以在循环中调用一个函数比如闭包</p>
+<p>32、go中<code>string</code>底层引用的是一个不能修改<code>byte</code>切片,字符串使用<code>len</code>返回的是字节数而不实字符数，如果想要返回字符串需要将<code>string</code>转为<code>rune</code>
+统计字符数可以使用<code>utf8.RuneCountInString</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">s</span> <span class="o">:=</span> <span class="s">&#34;hello&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span> <span class="c1">// 5
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nx">s</span> <span class="o">:=</span> <span class="s">&#34;汉&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span> <span class="c1">// 3
+</span></span></span></code></pre></div><p>33、go的源码都采用utf-8进行编码</p>
+<p>34、若要遍历字符串中的<code>rune</code>，可以直接使用字符串的范围循环。但需注意，这里的索引并非<code>rune</code>本身的索引，而是底层字节序列的起始位置。由于<code>rune</code>可能由多个字节组成，若要访问<code>rune</code>本身，应使用范围循环的值变量而非字符串中的索引。此外，若要获取字符串的第i个符文，在大多数情况下需要将字符串转换为<code>rune</code>切片。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">s</span><span class="o">:=</span><span class="s">&#34;adbcd&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">r</span><span class="o">:=</span> <span class="p">[]</span><span class="nb">rune</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 获取字符串长度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">utf8</span><span class="p">.</span><span class="nf">RuneCountInString</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
+</span></span></code></pre></div><p>34、<code>TrimRight</code>或<code>TrimLeft</code>函数会逐个回溯遍历字符串中的每个字符。若某个字符属于给定集合，则被移除；否则终止遍历并返回剩余字符串。因此本示例返回123。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">strings</span><span class="p">.</span><span class="nf">TrimRight</span><span class="p">(</span><span class="s">&#34;123oxo&#34;</span><span class="p">,</span> <span class="s">&#34;xo&#34;</span><span class="p">))</span> <span class="c1">// 123
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">strings</span><span class="p">.</span><span class="nf">TrimLeft</span><span class="p">(</span><span class="s">&#34;oxo123&#34;</span><span class="p">,</span> <span class="s">&#34;ox&#34;</span><span class="p">))</span> <span class="c1">// 123
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">strings</span><span class="p">.</span><span class="nf">TrimPrefix</span><span class="p">(</span><span class="s">&#34;oxo123&#34;</span><span class="p">,</span> <span class="s">&#34;ox&#34;</span><span class="p">))</span> <span class="c1">/// o123
+</span></span></span></code></pre></div><p>35、go中字符串是不可变的如果需要进行多个字符串拼接使用<code>strings.Builder</code>，若已知未来字符串的字节数，应使用Grow方法预先分配内部字节切片</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">concat</span><span class="p">(</span><span class="nx">values</span> <span class="p">[]</span><span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">total</span> <span class="o">:=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">values</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">total</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="nx">values</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="c1">// 统计每个字符串的字节数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">sb</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Builder</span><span class="p">{}</span> <span class="c1">// 底层是持有一个byte切片,WriteString执行后都会对这个切片进行追加操作
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// Grow 给builder持有的切片指定多少字节数，减少字节切片扩容操作，提升性能
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">sb</span><span class="p">.</span><span class="nf">Grow</span><span class="p">(</span><span class="nx">total</span><span class="p">)</span> <span class="c1">// 根据统计的字节数给builder开辟空间，减少内存分配
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">value</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">values</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">sb</span><span class="p">.</span><span class="nf">WriteString</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">sb</span><span class="p">.</span><span class="nf">String</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>36、大多数输入输出操作都是用[]byte而不是字符串来完成的。当我们纠结该用字符串还是[]byte时，不妨回想一下：使用[]byte其实并不一定不方便。事实上，字符串包里所有导出的函数在bytes包里都有对应版本，比如Split、Count、Contains、Index等等。因此，无论是否进行I/O操作，我们都应该先考虑是否可以用bytes替代字符串来实现整个工作流程，从而避免额外转换带来的麻烦。</p>
+<p>37、字符串需要记住 1.<code>len</code>返回的是字节数而不实字符串 2.对字符串进行切割子串操作可能会产生内存泄漏(<code>log[:5]</code>),从go 1.18开始创建一个字符串的子串可以使用<code>strings.Clone</code></p>
+<p>38、方法接收器</p>
+<ul>
+<li>
+<p>必须为指针</p>
+<p>1.若方法需要对接收者进行类型转换。当接收者为切片且方法需要追加元素时，该规则同样适用。<br>
+2.若方法接收方包含不可复制的字段（例如sync包的类型部分），我们将在错误#74《复制同步类型》中详细讨论该问题。</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">slice</span> <span class="p">[]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="o">*</span><span class="nx">slice</span><span class="p">)</span> <span class="nf">add</span><span class="p">(</span><span class="nx">element</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="o">*</span><span class="nx">s</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="o">*</span><span class="nx">s</span><span class="p">,</span> <span class="nx">element</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>应该为指针</li>
+</ul>
+<p>若接收方为大型对象，使用指针可提升调用效率，因其能避免进行大规模数据复制。当难以界定‘大型’的具体范围时，基准测试可作为解决方案；由于其受多重因素影响，几乎无法给出确切的尺寸标准。</p>
+<ul>
+<li>
+<p>必须为值类型</p>
+<p>1.如果必须强制接收方不可变性。 <br>
+2.如果接收方是映射、函数或通道。否则将发生编译错误。</p>
+</li>
+<li>
+<p>应该为值类型</p>
+<p>1.如果接收者是一个不需要修改的切片。 <br>
+2.如果接收者是一个小型数组或结构体，其本身是值类型且没有可变字段，例如时间。<br>
+3.如果接收者是基本类型，如int、float64或string。</p>
+</li>
+</ul>
+<p>39、函数使用命令返回值时，默认会初始化的为该类型的初始值</p>
+<p>40、在大多数情况下，将文件名作为函数参数来读取文件内容应被视为一种代码异味（特定函数如os.Open除外）。可以使用io.Reader作为参数</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">countEmptyLines</span><span class="p">(</span><span class="nx">reader</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Reader</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="nx">scanner</span> <span class="o">:=</span> <span class="nx">bufio</span><span class="p">.</span><span class="nf">NewScanner</span><span class="p">(</span><span class="nx">reader</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="nx">scanner</span><span class="p">.</span><span class="nf">Scan</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>41.使用<code>defer</code>调用函数时，参数为立刻进行赋值。简而言之，调用函数或方法的defer操作时，其参数会立即执行。若需在后续修改传入的参数，可使用指针或闭包实现。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">s</span> <span class="o">:=</span> <span class="s">&#34;abc&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">defer</span> <span class="nf">f</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="c1">// s = abc
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">defer</span> <span class="nf">f</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="c1">// s = ddd 闭包调用执行时才赋值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}()</span>
+</span></span><span class="line"><span class="cl"><span class="nx">s</span> <span class="p">=</span> <span class="s">&#34;ddd&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">j</span> <span class="o">:=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">defer</span> <span class="kd">func</span><span class="p">(</span><span class="nx">i</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}(</span><span class="nx">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">i</span><span class="o">++</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">j</span><span class="o">++</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// i = 0 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// j = 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>42.在处理错误时，我们可以选择进行错误包装。包装是指为错误添加额外上下文信息和/或将错误标记为特定类型。如果需要对错误进行标记，则应创建自定义错误类型。然而，若只需添加额外上下文，就应使用带有%w指令的fmt.Errorf，因为这无需创建新的错误类型。但需注意，错误包装可能产生耦合性，因为它会使调用方能够访问原始错误。若要避免这种情况，就不应使用错误包装，而应采用错误转换，例如使用带有%v指令的fmt.Errorf。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// 错误包装
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;bar failed: %w&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>43.如果我们依赖Go 1.13的错误包装机制，就必须使用<code>errors.As</code>来检查某个错误是否属于特定类型。这样一来，无论错误是由被调用函数直接返回，还是被包装在另一个错误中，<code>errors.As</code>都能递归解包主错误，并判断其中是否存在符合特定类型的错误。</p>
+<p>44.若在应用程序中使用错误包裹功能（通过%w指令和fmt错误函数），则应使用<code>errors.Is</code>而非==来检查错误是否与特定值匹配。因此，即使哨兵错误被包裹，<code>errors.Is</code>仍能递归解包，并将链中的每个错误与指定值进行比对。</p>
+<p>45.错误处理应当只执行一次。正如我们所见，记录错误本质上就是处理错误。因此，我们应当选择记录错误或返回错误。这样做既能简化代码，又能更深入地理解错误情况。使用错误包装是最便捷的方法，它既能传递源错误，又能为错误添加上下文信息。</p>
+<p>46.当想要忽略一个err时，使用<code>_</code>占位更能传达出明显的有效信息,表示忽略处理这个错误</p>
+<h2 id="并发">并发</h2>
+<p>47.并发是指同时处理多项任务。并行是指同时执行多项任务。</p>
+<p>48.在开发并发应用程序时，必须明确区分数据竞争与竞争条件。当多个goroutine同时访问同一内存地址且至少有一个在写入时，就会发生数据竞争。这种现象会导致程序出现异常行为。但需要注意的是，无数据竞争的应用程序并不意味着结果绝对确定。即使程序没有数据竞争，仍可能因goroutine执行速度、消息发布到通道的时效性、数据库调用耗时等不可控因素产生波动——这正是竞争条件的表现。准确理解这两个概念，是掌握并发应用设计精髓的关键所在。</p>
+<p>49.如果传输context不确定时使用context.TODO()，context必须要保证一直存在直到函数返回</p>
+<p>50.创建一个go程必须清楚的知道它什么时候执行关闭,必须一直占用资源</p>
+<p>51.在使用带多个通道的select语句时，必须注意：当多个选项同时就绪时，源码中的第一个case不会自动胜出。Go会随机挑选可执行的case，因此无法保证具体选中哪个选项。针对单个生产者协程的情况，可通过无缓冲通道或单一通道解决此问题；而对于多个生产者协程的场景，则可通过嵌套select配合default子句来实现优先级处理。</p>
+<p>52.通道可以携带数据或不携带数据。若希望按照Go语言惯例设计符合习惯的API，需注意：不携带数据的通道应声明为<code>chan struct{}</code>类型。这种设计能向接收方明确传达：消息本身不包含任何有意义的内容，其价值仅在于传递&quot;已接收到信号&quot;这一事实。在Go语言中，此类通道被称为<strong>通知通道</strong>。</p>
+<p>53.总结来说，等待一个nil通道或向nil通道发送数据会导致阻塞，而这一特性并非无用。正如我们在合并两个通道的示例中所见，可以利用nil通道来实现一种精巧的状态机，从而动态地从select语句中移除其中一个分支。让我们记住这个思路：nil通道在特定场景下非常有用，应成为Go开发者在处理并发代码时的工具之一。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// 示例：使用nil通道动态管理select分支
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">for</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">select</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">v</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">ch1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">ch1</span> <span class="p">=</span> <span class="kc">nil</span> <span class="c1">// 将通道置为nil，使此case不再被选中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">process</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">v</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">ch2</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">ch2</span> <span class="p">=</span> <span class="kc">nil</span> <span class="c1">// 将通道置为nil，使此case不再被选中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">process</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">ch1</span> <span class="o">==</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="nx">ch2</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span> <span class="c1">// 两个通道都已关闭，退出循环
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>54.在并发中使用字符串格式化可能会导致<code>数据竞争</code>与<code>死锁</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">potentialDeadlock</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">mu</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nx">mu</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 危险：如果format内部触发了需要同一锁的操作
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">s</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;Locked: %v&#34;</span><span class="p">,</span> <span class="nf">someFunction</span><span class="p">())</span> 
+</span></span><span class="line"><span class="cl">    <span class="nx">mu</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">someFunction</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 如果这里也需要获取同一个锁，就会死锁
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">mu</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span> <span class="c1">// 第二次尝试加锁 - 死锁！
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">defer</span> <span class="nx">mu</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;data&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//// 数据竞争
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">sharedData</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">goroutine1</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 不安全：同时修改共享数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">sharedData</span> <span class="p">=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;Value: %d&#34;</span><span class="p">,</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">().</span><span class="nf">Unix</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">goroutine2</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 同时读取或修改 sharedData
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">sharedData</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>55.在并发环境中处理切片时，我们必须记住，对切片使用 <code>append</code> 操作并不总是无竞态的。根据切片的状态以及它是否已满，行为会发生变化。如果切片已满，<code>append</code> 操作是无竞态的。否则，多个 goroutine 可能会竞争更新同一个数组索引，从而导致数据竞态。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">s</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">// 无数据竟态,当一个go程插入后，切片已满底层会重新创建一个数组扩容
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">s</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">// 存在数据竟态,两个go程都访问索引为 1 的位置
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">s1</span> <span class="o">:=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}()</span>
+</span></span><span class="line"><span class="cl"><span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">s2</span> <span class="o">:=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}()</span>
+</span></span></code></pre></div><p>56.当需要触发多个goroutine并处理错误及上下文传递时，可考虑errgroup是否为一种解决方案。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">handler</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">circles</span> <span class="p">[]</span><span class="nx">Circle</span><span class="p">)</span> <span class="p">([]</span><span class="nx">Result</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">results</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="nx">Result</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">circles</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">g</span><span class="p">,</span> <span class="nx">ctx</span> <span class="o">:=</span> <span class="nx">errgroup</span><span class="p">.</span><span class="nf">WithContext</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">circle</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">circles</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">i</span> <span class="o">:=</span> <span class="nx">i</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">circle</span> <span class="o">:=</span> <span class="nx">circle</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">g</span><span class="p">.</span><span class="nf">Go</span><span class="p">(</span><span class="kd">func</span><span class="p">()</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">result</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">foo</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">circle</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">results</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">result</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">g</span><span class="p">.</span><span class="nf">Wait</span><span class="p">();</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span> <span class="c1">// g.Wait() 等待所有go程执行完成
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">results</span><span class="p">,</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>57.使用<code>sync</code>包时，任何时候不要使用复制值。当多个goroutine需要访问同一同步元素时，必须确保它们都依赖于同一实例。该规则适用于同步包中定义的所有类型。使用指针是解决此问题的方法：我们可以使用指向同步元素的指针，或指向包含同步元素的结构体的指针。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// 都不能被复制
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">sync</span><span class="p">.</span><span class="nx">Cond</span>
+</span></span><span class="line"><span class="cl"><span class="nx">sync</span><span class="p">.</span><span class="nx">Map</span>
+</span></span><span class="line"><span class="cl"><span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>
+</span></span><span class="line"><span class="cl"><span class="nx">sync</span><span class="p">.</span><span class="nx">RWMutex</span>
+</span></span><span class="line"><span class="cl"><span class="nx">sync</span><span class="p">.</span><span class="nx">Once</span>
+</span></span><span class="line"><span class="cl"><span class="nx">sync</span><span class="p">.</span><span class="nx">Pool</span>
+</span></span><span class="line"><span class="cl"><span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span>
+</span></span></code></pre></div><p>在以下情况下，我们可能会遇到意外复制sync字段的问题：</p>
+<ul>
+<li>调用具有值接收器的方法（如前所述）</li>
+<li>调用接收sync类型参数的函数</li>
+<li>调用接收包含sync字段的结构体参数的函数</li>
+</ul>
+<p>58.通常使用time.After方法时需谨慎。需注意资源仅在计时器到期后才会释放。若在循环、Kafka消费者函数或HTTP处理程序中重复调用time.After，可能导致内存消耗激增。此时应优先选用time.NewTimer。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">consumer</span><span class="p">(</span><span class="nx">ch</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="nx">Event</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">timerDuration</span> <span class="o">:=</span> <span class="mi">1</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Hour</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">timer</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">NewTimer</span><span class="p">(</span><span class="nx">timerDuration</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">timer</span><span class="p">.</span><span class="nf">Reset</span><span class="p">(</span><span class="nx">timerDuration</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">select</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="nx">event</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">ch</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="nf">handle</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="o">&lt;-</span><span class="nx">timer</span><span class="p">.</span><span class="nx">C</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;warning: no messages received&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>59.我们应当谨慎处理嵌入字段。虽然推广嵌入字段类型的字段和方法有时会带来便利，但也可能引发细微错误，因为这可能导致父结构体在缺乏明确信号的情况下实现接口。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// json格式化 会有问题 ID字段会被省略 
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 执行json.Marshal()后  &#34;2021-05-18T21:15:08.381652+02:00&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">Event</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">ID</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">time</span><span class="p">.</span><span class="nx">Time</span> <span class="c1">// 这样会组合会实现time的所有方法,  time.Time实现了json.Marshaler当调用json.Marshal()会调用它已实现的方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Event</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">ID</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">Time</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Time</span> <span class="c1">// 使用
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 
+</span></span></span></code></pre></div><p>60.反序列化json字符串可以使用<code>map[string]any</code>,需要注意的是使用任何数值类型（无论是否包含小数）时，系统都会将其转换为float64类型。</p>
+<h2 id="数据库">数据库</h2>
+<ul>
+<li><code>sql.Open</code>方法并不强制建立连接，首个连接可采用延迟建立机制。若需验证配置正确性并确认数据库连接状态，应在调用<code>sql.Open</code>后执行<code>Ping</code>或<code>PingContext</code>方法。</li>
+<li>同样重要的是要记住，创建连接池会涉及四个可配置参数，我们可能需要对它们进行自定义。这些参数分别对应 *sql.DB 的四个导出方法：<br>
+1.SetMaxOpenConns：对于生产级应用至关重要。由于默认值是<code>无限制</code>的，我们应通过设置该参数来确保连接数符合底层数据库的实际承载能力。<br>
+2.SetMaxIdleConns：如果应用程序产生大量并发请求，应提高SetMaxIdleConns的默认值（默认为2），否则应用可能会频繁重新建立连接。<br>
+3.SetConnMaxIdleTime：若应用程序可能面临突发请求，设置SetConnMaxIdleTime十分重要(默认无限制)。当应用恢复平稳状态时，我们需要确保已创建的连接最终被释放。<br>
+4.SetConnMaxLifetime：在连接负载均衡数据库服务器等场景下，设置SetConnMaxLifetime会很有帮助(默认无限制)。这能确保应用程序不会过长时间占用单个连接。</li>
+<li>预编译语句是许多SQL数据库为执行重复SQL语句而实现的功能。在内部，该SQL语句经过预编译并与提供的数据分离。
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// 如果某个sql语句需要重复执行可以使用预编译语句
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 优势是更有效率，更安全
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">stmt</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">db</span><span class="p">.</span><span class="nf">Prepare</span><span class="p">(</span><span class="s">&#34;SELECT * FROM ORDER WHERE ID = ?&#34;</span><span class="p">)</span>
+</span></span></code></pre></div></li>
+<li>处理查询中的空值。字段为指针，或使用SQL的NullXXX类型。<code>sql.NullString</code> <code>sql.NullBool</code></li>
+<li>处理迭代中的行错误使用<code>row.Err</code>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">get</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">db</span> <span class="o">*</span><span class="nx">sql</span><span class="p">.</span><span class="nx">DB</span><span class="p">,</span> <span class="nx">id</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="kt">string</span><span class="p">,</span> <span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">for</span> <span class="nx">rows</span><span class="p">.</span><span class="nf">Next</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">rows</span><span class="p">.</span><span class="nf">Err</span><span class="p">();</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">department</span><span class="p">,</span> <span class="nx">age</span><span class="p">,</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></li>
+</ul>
+<p>62.所有实现<code>io.Closer</code>资源结构在使用完后都需要被关闭，不然可能导致内存泄漏或其他的问题。如<code>HTTP body</code> <code>sql.Rows</code> <code>os.File</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Closer</span> <span class="kd">interface</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">Close</span><span class="p">()</span> <span class="kt">error</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>63.在生产级应用中，必须避免使用默认的HTTP客户端和服务器。否则，由于缺乏超时机制，甚至存在恶意客户端利用服务器无超时限制的漏洞，可能导致请求无限期卡住。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">client</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">http</span><span class="p">.</span><span class="nx">Client</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">Timeout</span><span class="p">:</span> <span class="mi">5</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span> <span class="c1">// 请求超时等待时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">Transport</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">http</span><span class="p">.</span><span class="nx">Transport</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">DialContext</span><span class="p">:</span> <span class="p">(</span><span class="o">&amp;</span><span class="nx">net</span><span class="p">.</span><span class="nx">Dialer</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">Timeout</span><span class="p">:</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span> <span class="c1">// 连接超时等待时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="p">}).</span><span class="nx">DialContext</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">TLSHandshakeTimeout</span><span class="p">:</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span> <span class="c1">// tls握手超时等待时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="nx">ResponseHeaderTimeout</span><span class="p">:</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span> <span class="c1">// 服务器响应头等待时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">s</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">http</span><span class="p">.</span><span class="nx">Server</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">Addr</span><span class="p">:</span> <span class="s">&#34;:8080&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">ReadHeaderTimeout</span><span class="p">:</span> <span class="mi">500</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">,</span> <span class="c1">// 读取请求头等待超时
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">ReadTimeout</span><span class="p">:</span> <span class="mi">500</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">,</span> <span class="c1">// 读取请求超时
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">Handler</span><span class="p">:</span> <span class="nx">http</span><span class="p">.</span><span class="nf">TimeoutHandler</span><span class="p">(</span><span class="nx">handler</span><span class="p">,</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span> <span class="s">&#34;foo&#34;</span><span class="p">),</span> <span class="c1">// 一个封装函数，用于指定处理程序完成的最大时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><h2 id="测试">测试</h2>
+<ul>
+<li>给测试文件添加标识区分<br>
+1.添加标识 <code>//go:build integration</code>   <br>
+2.使用短测试 <code>testing.Short()</code><br>
+3.使用环境变量标记</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">//go:build integration
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kn">package</span> <span class="nx">db</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl"><span class="s">&#34;testing&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">TestInsert</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// $ go test --tags=integration -v .
+</span></span></span></code></pre></div><p>//go:build !integration 使用了<code>!</code><br>
+若使用integration标签运行go test，则仅执行集成测试。 <br>
+若不使用该标签运行go test，则仅执行单元测试。</p>
+<ul>
+<li>一种测试分类方法涉及运行速度。我们需要区分短时运行测试与长时运行测试。举例来说，假设我们有一组单元测试，其中某个测试运行速度极慢。我们希望对这个慢速测试进行分类，避免每次运行（特别是当触发条件是文件保存后时）。短时运行模式使我们能够实现这种区分</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">TestLongRunning</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">testing</span><span class="p">.</span><span class="nf">Short</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">t</span><span class="p">.</span><span class="nf">Skip</span><span class="p">(</span><span class="s">&#34;skipping long-running test&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>我们应当牢记：对于使用并发的应用程序，强烈建议（甚至必须）在运行时启用-race参数。该参数可激活数据竞争检测器，通过代码监控来捕捉潜在的数据竞争。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">go <span class="nb">test</span> -race ./...
+</span></span></code></pre></div><ul>
+<li>当使用<code>t. Parallel</code>标记测试时，该测试会与所有其他并行测试同时执行。但在执行流程中，Go会先逐一运行所有顺序测试，待顺序测试完成后，再执行并行测试。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// 先执行C 再并行执行 AB
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">TestA</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">t</span><span class="p">.</span><span class="nf">Parallel</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">TestB</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">t</span><span class="p">.</span><span class="nf">Parallel</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">TestC</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>表格驱动测试是一种高效编写精简测试的技巧。若多个单元测试具有相似结构，可采用表格驱动测试实现互化。该技术通过避免重复，简化了测试逻辑的修改，并便于新增用例。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">TestFoo</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">t</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="s">&#34;subtest 1&#34;</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="kc">false</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">t</span><span class="p">.</span><span class="nf">Error</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">t</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="s">&#34;subtest 2&#34;</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">2</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">t</span><span class="p">.</span><span class="nf">Error</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>httptest软件包（https://pkg.go.dev/net/http/httptest）为HTTP测试提供客户端和服务器端的工具</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// 模拟请求
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">req</span> <span class="o">:=</span> <span class="nx">httptest</span><span class="p">.</span><span class="nf">NewRequest</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodGet</span><span class="p">,</span> <span class="s">&#34;http://localhost&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="nx">strings</span><span class="p">.</span><span class="nf">NewReader</span><span class="p">(</span><span class="s">&#34;foo&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 模拟服务器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">srv</span> <span class="o">:=</span> <span class="nx">httptest</span><span class="p">.</span><span class="nf">NewServer</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">http</span><span class="p">.</span><span class="nf">HandlerFunc</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">func</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">w</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="s">`{&#34;duration&#34;: 314}`</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">defer</span> <span class="nx">srv</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span></code></pre></div><ul>
+<li>iotest软件包（https://pkg.go.dev/testing/iotest）提供了测试读写器的实用工具。这个便捷的工具包常被Go开发者忽视。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">TestLowerCaseReader</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">err</span> <span class="o">:=</span> <span class="nx">iotest</span><span class="p">.</span><span class="nf">TestReader</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="o">&amp;</span><span class="nx">LowerCaseReader</span><span class="p">{</span><span class="nx">reader</span><span class="p">:</span> <span class="nx">strings</span><span class="p">.</span><span class="nf">NewReader</span><span class="p">(</span><span class="s">&#34;aBcDeFgHiJ&#34;</span><span class="p">)},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;acegi&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">t</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>查看测试覆盖率</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ go <span class="nb">test</span> -coverprofile<span class="o">=</span>coverage.out ./...
+</span></span><span class="line"><span class="cl">$ go tool cover -html<span class="o">=</span>coverage.out
+</span></span></code></pre></div><ul>
+<li>测试环境准备，在测试前准备资源，在测试后关闭资源</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// 测试前setup
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">TestMySQLIntegration</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">db</span> <span class="o">:=</span> <span class="nf">createConnection</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="s">&#34;tcp(localhost:3306)/db&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">createConnection</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">,</span> <span class="nx">dsn</span> <span class="kt">string</span><span class="p">)</span> <span class="o">*</span><span class="nx">sql</span><span class="p">.</span><span class="nx">DB</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">db</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">sql</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="nx">dsn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">t</span><span class="p">.</span><span class="nf">FailNow</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">t</span><span class="p">.</span><span class="nf">Cleanup</span><span class="p">(</span> <span class="c1">// 测试完后关闭资源
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">_</span> <span class="p">=</span> <span class="nx">db</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">db</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>该特定函数接受一个<code>*testing.M</code>参数，该参数通过暴露单一的Run方法来执行所有测试。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">TestMain</span><span class="p">(</span><span class="nx">m</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">M</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">setupMySQL</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">code</span> <span class="o">:=</span> <span class="nx">m</span><span class="p">.</span><span class="nf">Run</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">teardownMySQL</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">os</span><span class="p">.</span><span class="nf">Exit</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="内存优化">内存优化</h2>
+<p>64.设计结构体时如何减少内存分配量？经验法则是对结构体进行重组，使其字段按类型大小降序排列。在本案例中，int64类型排在首位，随后是两个字节类型：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// 由于结构体的大小必须是字长（8字节）的整数倍，因此其地址总长度为24字节而非17字节。编译时，Go编译器会添加填充数据以确保数据对齐
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">Foo</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">i</span> <span class="kt">int64</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">b1</span> <span class="kt">byte</span> <span class="c1">// 在64位的系统编译器默认会补 7个byte
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">b2</span> <span class="kt">byte</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>设计结构图需注意数据对齐问题。将Go结构体的字段按大小降序排列可避免填充。防止填充意味着分配更紧凑的结构体，这可能带来诸如减少垃圾回收频率和提升空间局部性等优化效果。</p>
+<p>65.若编译器无法确认变量在函数返回后未被引用，则该变量将被分配到堆内存中。</p>
+<ul>
+<li>函数或方法返回指针，变量会逃逸到堆中</li>
+</ul>
+<p>66.编译优化</p>
+<ul>
+<li>map优化</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// 这个版本要快些，编译器会避免将bytes转为string
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">cache</span><span class="p">)</span> <span class="nf">get</span><span class="p">(</span><span class="nx">bytes</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">v</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">contains</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">v</span><span class="p">,</span> <span class="nx">contains</span> <span class="p">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">m</span><span class="p">[</span><span class="nb">string</span><span class="p">(</span><span class="nx">bytes</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">cache</span><span class="p">)</span> <span class="nf">get</span><span class="p">(</span><span class="nx">bytes</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">v</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">contains</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">key</span> <span class="o">:=</span> <span class="nb">string</span><span class="p">(</span><span class="nx">bytes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">v</span><span class="p">,</span> <span class="nx">contains</span> <span class="p">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">m</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>sync.pool<br>
+当我们需要频繁创建大量同一类型的对象时，可以考虑使用<code>sync.Pool</code>。作为一组可复用的临时对象存储池，它能有效避免同类数据的重复内存分配，并且支持多个goroutine安全并发访问。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// 需要创建多个byte切片的场景使用sync.pool优化
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">pool</span> <span class="p">=</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">Pool</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">New</span><span class="p">:</span> <span class="kd">func</span><span class="p">()</span> <span class="nx">any</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">write</span><span class="p">(</span><span class="nx">w</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">buffer</span> <span class="o">:=</span> <span class="nx">pool</span><span class="p">.</span><span class="nf">Get</span><span class="p">().([]</span><span class="kt">byte</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">buffer</span> <span class="p">=</span> <span class="nx">buffer</span><span class="p">[:</span><span class="mi">0</span><span class="p">]</span><span class="c1">// 清空buffer
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">defer</span> <span class="nx">pool</span><span class="p">.</span><span class="nf">Put</span><span class="p">(</span><span class="nx">buffer</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">getResponse</span><span class="p">(</span><span class="nx">buffer</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">w</span><span class="p">.</span><span class="nf">Write</span><span class="p">(</span><span class="nx">buffer</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>67.使用pprof检测</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;log&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;net/http&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">_</span> <span class="s">&#34;net/http/pprof&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">http</span><span class="p">.</span><span class="nf">HandleFunc</span><span class="p">(</span><span class="s">&#34;/&#34;</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Fprintf</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">ListenAndServe</span><span class="p">(</span><span class="s">&#34;:80&#34;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>68.<code>io.Discard</code> 是 Go 语言中处理 &ldquo;我不关心这些数据&rdquo; 场景的优雅解决方案，它让代码更清晰、更高效。</p>
+<ul>
+<li>与linuxe中<code>/dev/null</code>相似</li>
+<li><code>io.Discard</code>内部不执行任何操作，不占用内存，只有函数调用开销</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">downloadData</span><span class="p">(</span><span class="nx">w</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 模拟下载数据并写入 w
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">w</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;下载的数据...&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 我们只需要知道下载是否成功，不关心数据内容
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">err</span> <span class="o">:=</span> <span class="nf">downloadData</span><span class="p">(</span><span class="nx">io</span><span class="p">.</span><span class="nx">Discard</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;下载失败:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;下载成功&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="../../tags/go/">go</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="../../p/go-zero/">
+        
+        
+            <div class="article-image">
+                <img src="../../p/go-zero/go-zero%E8%B0%83%E7%94%A8%E5%85%B3%E7%B3%BB.01b29ad6bf14f752ba392428857c4918.png" 
+                        width="1416" 
+                        height="246" 
+                        loading="lazy"
+                        alt="Featured image of post go-zero"
+                        
+                        data-hash="md5-AbKa1r8U91K6OSQohXxJGA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">go-zero</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="../../p/go%E8%AF%AD%E8%A8%80-1/">
+        
+        
+            <div class="article-image">
+                <img src="../../p/go%E8%AF%AD%E8%A8%80-1/image.e7adcdfc712cdfcc1c51a739c1fd8ed3.jpg" 
+                        width="1920" 
+                        height="1080" 
+                        loading="lazy"
+                        alt="Featured image of post go语言-1"
+                        
+                        data-hash="md5-563N/HEs38wcUac5wf2O0w==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">go语言-1</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="../../p/go%E8%AF%AD%E8%A8%80-2/">
+        
+        
+            <div class="article-image">
+                <img src="../../p/go%E8%AF%AD%E8%A8%80-2/image.5d47ec8db0b189b81043418d7d06fc20.jpg" 
+                        width="1920" 
+                        height="1278" 
+                        loading="lazy"
+                        alt="Featured image of post go语言-2"
+                        
+                        data-hash="md5-XUfsjbCxibgQQ0GNfQb8IA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">go语言-2</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="../../p/go%E8%AF%AD%E8%A8%80-3/">
+        
+        
+            <div class="article-image">
+                <img src="../../p/go%E8%AF%AD%E8%A8%80-3/image.64f87beb7a9e434bca5cbc552a0535f1.jpg" 
+                        width="1920" 
+                        height="1277" 
+                        loading="lazy"
+                        alt="Featured image of post go语言-3"
+                        
+                        data-hash="md5-ZPh763qeQ0vKXLxVKgU18Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">go语言-3</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="../../p/go%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86%E5%BA%93/">
+        
+        
+            <div class="article-image">
+                <img src="../../p/go%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86%E5%BA%93/image.10ac248670ccccfdec369a05d8e20e48.jpg" 
+                        width="1920" 
+                        height="1280" 
+                        loading="lazy"
+                        alt="Featured image of post go语言标准库"
+                        
+                        data-hash="md5-EKwkhnDMzP3sNpoF2OIOSA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">go语言标准库</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src='//unpkg.com/@waline/client@v2/dist/waline.js'></script>
+<link href='//unpkg.com/@waline/client@v2/dist/waline.css' rel='stylesheet'/>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+        --waline-font-size: var(--article-font-size);
+    }
+    .waline-container .wl-count {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    Waline.init({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/tieba","https://cdn.jsdelivr.net/gh/walinejs/emojis/qq","https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/alus","https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"屑莹","placeholder":"网友评论区."},"pageview":true,"requiredMeta":["name","email"],"serverURL":"https://waline-1-f2033612.deta.app/","visitor":false});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2026 吴生有涯
+    </section>
+
+    
+	
+	<script defer src="https://busuanzi.9420.ltd/js"></script>
+        本文总阅读量 <span id="busuanzi_page_pv"></span> 次
+        本文总访客量 <span id="busuanzi_page_uv"></span> 人
+        本站总访问量 <span id="busuanzi_site_pv"></span> 次
+        本站总访客数 <span id="busuanzi_site_uv"></span> 人
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="../../ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>docker on 吴生有涯</title>
+        <link>https://wushengyouya.github.io/tags/docker/</link>
+        <description>Recent content in docker on 吴生有涯</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>吴生有涯</copyright>
+        <lastBuildDate>Sun, 22 Jan 2023 23:32:50 +0800</lastBuildDate><atom:link href="https://wushengyouya.github.io/tags/docker/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>docker学习</title>
+        <link>https://wushengyouya.github.io/p/docker%E5%AD%A6%E4%B9%A0/</link>
+        <pubDate>Sun, 22 Jan 2023 23:32:50 +0800</pubDate>
+        
+        <guid>https://wushengyouya.github.io/p/docker%E5%AD%A6%E4%B9%A0/</guid>
+        <description>&lt;img src="https://wushengyouya.github.io/p/docker%E5%AD%A6%E4%B9%A0/111065478_p0.png" alt="Featured image of post docker学习" /&gt;&lt;h2 id=&#34;docker定义&#34;&gt;docker定义&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-1.png&#34;
+	width=&#34;3105&#34;
+	height=&#34;1624&#34;
+	srcset=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-1_huebfa00574c89ffb67a4f4b418e7e23a0_1373763_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-1_huebfa00574c89ffb67a4f4b418e7e23a0_1373763_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;191&#34;
+		data-flex-basis=&#34;458px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;命令解读
+&lt;img src=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image.png&#34;
+	width=&#34;3283&#34;
+	height=&#34;1638&#34;
+	srcset=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image_hud3381957a71771a636ee1cc64babc5a5_999975_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image_hud3381957a71771a636ee1cc64babc5a5_999975_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;200&#34;
+		data-flex-basis=&#34;481px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;常见命令&#34;&gt;常见命令&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-2.png&#34;
+	width=&#34;3254&#34;
+	height=&#34;1588&#34;
+	srcset=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-2_hu85dfa1c76fc990522c04427124308c5d_795699_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-2_hu85dfa1c76fc990522c04427124308c5d_795699_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;204&#34;
+		data-flex-basis=&#34;491px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    docker pull 拉取
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    docker push 推送镜像到镜像仓库
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    docker build 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    docker save
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    docker load 本地加载镜像
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    docker images 查看所有镜像
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    docker rmi 移除镜像
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    docker logs
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    docker run 创建并运行一个容器
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    docker start 开启容器
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    docker stop
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    docker ps 查看运行的容器
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    docker rm 移除容器  -f &lt;span class=&#34;c1&#34;&gt;#后面跟-f 强制删除&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    docker &lt;span class=&#34;nb&#34;&gt;exec&lt;/span&gt; -it 容器名 bash/其它    &lt;span class=&#34;c1&#34;&gt;#进入容器内部，运行命令行&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    docker search 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    docker volume
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;数据卷&#34;&gt;数据卷&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-3.png&#34;
+	width=&#34;1851&#34;
+	height=&#34;940&#34;
+	srcset=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-3_hub603d0639f7c298c9827f9c4de758468_367763_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-3_hub603d0639f7c298c9827f9c4de758468_367763_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;196&#34;
+		data-flex-basis=&#34;472px&#34;
+	
+&gt;
+命令
+&lt;img src=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-4.png&#34;
+	width=&#34;1817&#34;
+	height=&#34;794&#34;
+	srcset=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-4_huca432354419ec128cdbbe491050311e8_294375_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-4_huca432354419ec128cdbbe491050311e8_294375_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;228&#34;
+		data-flex-basis=&#34;549px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;挂载到本地目录
+&lt;img src=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-5.png&#34;
+	width=&#34;1613&#34;
+	height=&#34;890&#34;
+	srcset=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-5_hud6bedae48c2ff19ddfc51e169b8aa512_448871_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-5_hud6bedae48c2ff19ddfc51e169b8aa512_448871_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;181&#34;
+		data-flex-basis=&#34;434px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;linux 创建命令别名   &lt;em&gt;vi ~/.bashrc&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    docker run -d &lt;span class=&#34;se&#34;&gt;\ &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;#创建并运行一个容器,-d 为后台运行&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    --name mysql &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    -p 3306:3306 &lt;span class=&#34;se&#34;&gt;\ &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;#设置端口映射&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    -e &lt;span class=&#34;nv&#34;&gt;TZ&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;Asia/Shanghai
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    -e &lt;span class=&#34;nv&#34;&gt;MYSQL_ROOT_PASSWORD&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;123&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    -v /root/mysql/data:/var/lib/mysql
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    -v /root/mysql/init:/docker-entrypoint-initdb.d
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    -v /root/mysql/conf:/etc/mysql/conf.d
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    mysql:5.7 &lt;span class=&#34;c1&#34;&gt;#镜像名:版本号&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;自定义镜像&#34;&gt;自定义镜像&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-9.png&#34;
+	width=&#34;1792&#34;
+	height=&#34;1262&#34;
+	srcset=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-9_hu49ab31e4e5362179d299671bf6c1aac2_478611_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-9_hu49ab31e4e5362179d299671bf6c1aac2_478611_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;141&#34;
+		data-flex-basis=&#34;340px&#34;
+	
+&gt;
+&lt;img src=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-6.png&#34;
+	width=&#34;3473&#34;
+	height=&#34;1615&#34;
+	srcset=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-6_hucf0f5b2802fd08289e976cadaa356936_1359276_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-6_hucf0f5b2802fd08289e976cadaa356936_1359276_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;215&#34;
+		data-flex-basis=&#34;516px&#34;
+	
+&gt;
+dockerfile
+&lt;img src=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-7.png&#34;
+	width=&#34;3232&#34;
+	height=&#34;1450&#34;
+	srcset=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-7_hu879a7a4b13b9a0384bff19c2cf4c4687_990143_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-7_hu879a7a4b13b9a0384bff19c2cf4c4687_990143_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;222&#34;
+		data-flex-basis=&#34;534px&#34;
+	
+&gt;
+以java为例
+&lt;img src=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-8.png&#34;
+	width=&#34;2264&#34;
+	height=&#34;1418&#34;
+	srcset=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-8_hud228e7a9b0b0c5067da5d90eb7c2c47d_829783_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-8_hud228e7a9b0b0c5067da5d90eb7c2c47d_829783_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;159&#34;
+		data-flex-basis=&#34;383px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;网络&#34;&gt;网络&lt;/h2&gt;
+&lt;p&gt;加入同一网络的docker容器可以通过名字进行访问
+&lt;img src=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-10.png&#34;
+	width=&#34;2943&#34;
+	height=&#34;1550&#34;
+	srcset=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-10_hu4424835355fa8db2c9ad4540da416f42_1022728_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-10_hu4424835355fa8db2c9ad4540da416f42_1022728_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;189&#34;
+		data-flex-basis=&#34;455px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;docker-compose&#34;&gt;docker compose&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-11.png&#34;
+	width=&#34;2622&#34;
+	height=&#34;1627&#34;
+	srcset=&#34;../../p/docker%E5%AD%A6%E4%B9%A0/image-11_hud2f36b2908cd47d407daad0976f4dcbc_796913_480x0_resize_box_3.png 480w, ../../p/docker%E5%AD%A6%E4%B9%A0/image-11_hud2f36b2908cd47d407daad0976f4dcbc_796913_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Alt text&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;161&#34;
+		data-flex-basis=&#34;386px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;docker run -d &lt;br&gt;
+&amp;ndash;name mysql &lt;br&gt;
+-p 3306:3306 &lt;br&gt;
+-e TZ=Asia/Shanghai &lt;br&gt;
+-e MYSQL_ROOT_PASSWORD=123 &lt;br&gt;
+-v /root/mysql/data:/var/lib/mysql &lt;br&gt;
+-v /root/mysql/init:/docker-entrypoint-initdb.d &lt;br&gt;
+-v /root/mysql/conf:/etc/mysql/conf.d &lt;br&gt;
+mysql&lt;/p&gt;
+&lt;h3 id=&#34;更新docker-compose中的某个镜像&#34;&gt;更新docker compose中的某个镜像&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 1.本地保存镜像文件为另一个版本号&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 编译&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker build -t metaverse:1.1 .
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 保存&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker save metaverse:1.1 &amp;gt; metaverse_v1.2.tar
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 2.上传本地保存的rar镜像文件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo rz
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 3.加载镜像&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker load -i metaverse_v1.1.tar
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 4.修改docker-compose.yaml文件的镜像版本号&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;vim docker-compose.yaml
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 5.重新编译docker-compose的某一个镜像&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# -d 为后台运行 --no-deps 不启动链接的服务&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker compose -f &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;*.yaml&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; up -d --no-deps --build &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;镜像名&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker compose -f ./metaverse_docker-compose.yaml up -d --no-deps --build metaverse
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 6.查看Logs&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 查看当前compose.yaml文件下的所有镜像&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker compose -f ./metaverse_docker-compose.yaml ps --services
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 查看指定镜像的Log&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker compose -f ./metaverse_docker-compose.yaml logs -f metaverse
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        </item>
+        
+    </channel>
+</rss>

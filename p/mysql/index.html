@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='SELECT的执行流程 连接器：建立连接，管理连接，校验身份 查询缓存：查询语句如果命中缓存则直接返回，否则继续往下执行。Mysql 8.0已删除'>
+<title>mysql</title>
+
+<link rel='canonical' href='https://wushengyouya.github.io/p/mysql/'>
+
+<link rel="stylesheet" href="../../scss/style.min.4b0eac42a68e0a3548daa75c0ea06b5b77a0ac03a212a6bbe41eb5846cbcb5c6.css"><meta property='og:title' content='mysql'>
+<meta property='og:description' content='SELECT的执行流程 连接器：建立连接，管理连接，校验身份 查询缓存：查询语句如果命中缓存则直接返回，否则继续往下执行。Mysql 8.0已删除'>
+<meta property='og:url' content='https://wushengyouya.github.io/p/mysql/'>
+<meta property='og:site_name' content='吴生有涯'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='数据库' /><meta property='article:published_time' content='2023-03-02T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2023-03-02T00:00:00&#43;00:00'/><meta property='og:image' content='https://wushengyouya.github.io/p/mysql/head.png' />
+<meta name="twitter:title" content="mysql">
+<meta name="twitter:description" content="SELECT的执行流程 连接器：建立连接，管理连接，校验身份 查询缓存：查询语句如果命中缓存则直接返回，否则继续往下执行。Mysql 8.0已删除"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://wushengyouya.github.io/p/mysql/head.png' />
+    <link rel="shortcut icon" href="../../img/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "light");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="../../">
+                
+                    
+                    
+                    
+                        
+                        <img src="../../img/avatar_hu6884e68a33b95cdefc80892295f86f1e_979017_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="../../">吴生有涯</a></h1>
+            <h2 class="site-description">落霞与孤鹜齐飞</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href=''
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='../../index.xml'
+                        target="_blank"
+                        title="RSS"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="5" cy="19" r="1" />
+  <path d="M4 4a16 16 0 0 1 16 16" />
+  <path d="M4 11a9 9 0 0 1 9 9" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='../../' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='../../%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#select的执行流程">SELECT的执行流程</a></li>
+    <li><a href="#数据是怎么存储的">数据是怎么存储的</a>
+      <ol>
+        <li><a href="#表空间文件的结构是怎么样的">表空间文件的结构是怎么样的？</a></li>
+        <li><a href="#innodb-行格式有哪些">InnoDB 行格式有哪些？</a></li>
+        <li><a href="#varcharn-中-n-最大取值为多少">varchar(n) 中 n 最大取值为多少？</a></li>
+        <li><a href="#行溢出后mysql-是怎么处理的">行溢出后，MySQL 是怎么处理的？</a></li>
+      </ol>
+    </li>
+    <li><a href="#索引">索引</a>
+      <ol>
+        <li><a href="#b树">B+树</a></li>
+        <li><a href="#回表">回表</a></li>
+        <li><a href="#覆盖索引">覆盖索引</a></li>
+        <li><a href="#mysql什么使用b树而不适用b树">Mysql什么使用B+树而不适用B树</a></li>
+        <li><a href="#为什么不适用hash索引">为什么不适用Hash索引</a></li>
+        <li><a href="#什么时候适用索引">什么时候适用索引？</a></li>
+        <li><a href="#有什么优化索引的方法">有什么优化索引的方法？</a></li>
+      </ol>
+    </li>
+    <li><a href="#事务">事务</a>
+      <ol>
+        <li><a href="#事务有哪些特性">事务有哪些特性</a></li>
+        <li><a href="#并行事务会引发什么问题">并行事务会引发什么问题？</a></li>
+        <li><a href="#事务的隔离级别有哪些">事务的隔离级别有哪些？</a>
+          <ol>
+            <li><a href="#四种隔离级别具体是如何实现的呢">四种隔离级别具体是如何实现的呢</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    
+<header class="article-header">
+        <div class="article-image">
+            <a href="../../p/mysql/">
+                
+                    <img src="../../p/mysql/head.png"
+                        
+                        width="2346" 
+                        height="825" 
+                        loading="lazy"
+                        alt="Featured image of post mysql" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="../../categories/%E7%BC%96%E7%A8%8B/" >
+                编程
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="../../p/mysql/">mysql</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2023/03/02</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 7 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="select的执行流程">SELECT的执行流程</h2>
+<p><img src="../../image.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+></p>
+<ol>
+<li>连接器：建立连接，管理连接，校验身份</li>
+<li>查询缓存：查询语句如果命中缓存则直接返回，否则继续往下执行。Mysql 8.0已删除。</li>
+<li>解析SQL：通过解析器对SQL查询进行词法分析，语法分析，然后构建语法树</li>
+<li>执行SQL：执行SQL共有三个阶段</li>
+</ol>
+<ul>
+<li>预处理阶段：检查表或字段是否存在，将<code>selct *</code>中的<code>*</code>符号扩展为表上所有的列</li>
+<li>优化阶段：基于查询成本考虑，选择查询成本最小的执行计划</li>
+<li>执行阶段：根据执行计划执行SQL查询语句，从存储引擎读取记录，返回给客户端  、</li>
+</ul>
+<p><img src="../../p/mysql/image-1.png"
+	width="1261"
+	height="721"
+	srcset="../../p/mysql/image-1_hu81d1335b7c2d3898a90d4ba8fa4f6b4c_307248_480x0_resize_box_3.png 480w, ../../p/mysql/image-1_hu81d1335b7c2d3898a90d4ba8fa4f6b4c_307248_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="174"
+		data-flex-basis="419px"
+	
+></p>
+<h2 id="数据是怎么存储的">数据是怎么存储的</h2>
+<p>MySql硬盘文件<br>
+*.opt：存储当前数据库的默认字符集和字符校检规则<br>
+*.frm：存储表结构<br>
+*.ibd：存储表数据</p>
+<h3 id="表空间文件的结构是怎么样的">表空间文件的结构是怎么样的？</h3>
+<p>表空间由段（segment）、区（extent）、页（page）、行（row）组成</p>
+<p><img src="../../p/mysql/image-2.png"
+	width="686"
+	height="651"
+	srcset="../../p/mysql/image-2_hu3351bb8cc876fa1fcc5cdb87572adcd5_207006_480x0_resize_box_3.png 480w, ../../p/mysql/image-2_hu3351bb8cc876fa1fcc5cdb87572adcd5_207006_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="105"
+		data-flex-basis="252px"
+	
+></p>
+<ol>
+<li>行: 数据库表中的记录都是按行进行存放的，每行记录根据不同的行格式，有不同的存储结构。</li>
+<li>页：记录是按行来存储的，但是数据库并不以<code>行</code>为单位，否则一次读取就是一次I/O操作。InnoDB的数据是按<code>页</code>为单位来读取的
+，默认每个页的大小为16kb。</li>
+<li>区：在表中数据量大的时候，为某个索引分配空间的时候就不再按照页为单位分配了，而是按照区（extent）为单位分配。每个区的大小为 1MB，对于 16KB 的页来说，连续的 64 个页会被划为一个区，这样就使得链表中相邻的页的物理位置也相邻，就能使用顺序 I/O 了</li>
+<li>段：表空间是由各个段（segment）组成的，段是由多个区（extent）组成的</li>
+</ol>
+<h3 id="innodb-行格式有哪些">InnoDB 行格式有哪些？</h3>
+<p>InnoDB 提供了 4 种行格式，分别是 Redundant、Compact、Dynamic和 Compressed 行格式。</p>
+<ul>
+<li>Redundant 是很古老的行格式了， MySQL 5.0 版本之前用的行格式，现在基本没人用了。</li>
+<li>Compact 是一种紧凑的行格式，设计的初衷就是为了让一个数据页中可以存放更多的行记录，从 MySQL 5.1 版本之后，行格式<code>默认设置成 Compact。</code></li>
+<li>Dynamic 和 Compressed 两个都是紧凑的行格式，它们的行格式都和 Compact 差不多。<code>从 MySQL5.7 版本之后，默认使用 Dynamic 行格式</code></li>
+</ul>
+<p>Compact格式：</p>
+<ol>
+<li>
+<p>变长字段长度列表：varchar(n) 和 char(n) 的区别是什么，相信大家都非常清楚，char 是定长的，varchar 是变长的，变长字段实际存储的数据的长度（大小）不固定的。<code>「变长字段长度列表」的信息是按照逆序存放的</code></p>
+</li>
+<li>
+<p>NULL值列表：表中的某些列可能会存储 NULL 值，Compact 行格式把这些值为 NULL 的列存储到 NULL值列表中<code>默认占1个字节</code>
+如果存在允许 NULL 值的列，则每个列对应一个二进制位（bit），二进制位按照列的顺序逆序排列。</p>
+</li>
+<li>
+<p>记录头信息：delete_mask标识是否被删除，next_record下一条记录的位置</p>
+</li>
+</ol>
+<p><img src="../../p/mysql/image-3.png"
+	width="2336"
+	height="562"
+	srcset="../../p/mysql/image-3_hu06d6d032709e564ffd4c98320b12937d_175206_480x0_resize_box_3.png 480w, ../../p/mysql/image-3_hu06d6d032709e564ffd4c98320b12937d_175206_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="415"
+		data-flex-basis="997px"
+	
+></p>
+<p>二进制位的值为1时，代表该列的值为NULL。<br>
+二进制位的值为0时，代表该列的值不为NULL。
+<img src="../../p/mysql/image-4.png"
+	width="1004"
+	height="566"
+	srcset="../../p/mysql/image-4_hu7babf30b225aefc15badc4b5f509178e_89646_480x0_resize_box_3.png 480w, ../../p/mysql/image-4_hu7babf30b225aefc15badc4b5f509178e_89646_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="177"
+		data-flex-basis="425px"
+	
+></p>
+<h3 id="varcharn-中-n-最大取值为多少">varchar(n) 中 n 最大取值为多少？</h3>
+<ul>
+<li>MySQL 规定除了 TEXT、BLOBs 这种大对象类型之外，其他所有的列（不包括隐藏列和记录头信息）占用的字节长度加起来不能超过 65535 个字节。</li>
+<li>一行数据的最大字节数 65535，其实是包含「变长字段长度列表」和 「NULL 值列表」所占用的字节数的。所以， 我们在算 varchar(n) 中 n 最大值时，需要减去 storage overhead 占用的字节数。</li>
+<li>如果有多个字段的话，要保证所有字段的长度 + 变长字段字节数列表所占用的字节数 + NULL值列表所占用的字节数 &lt;= 65535。</li>
+</ul>
+<h3 id="行溢出后mysql-是怎么处理的">行溢出后，MySQL 是怎么处理的？</h3>
+<p>发生行溢出，多的数据就会存到另外的「溢出页」中。
+<img src="../../p/mysql/image-5.png"
+	width="1400"
+	height="508"
+	srcset="../../p/mysql/image-5_hu496cac6677899f1cc6918ba6fda91e0d_92848_480x0_resize_box_3.png 480w, ../../p/mysql/image-5_hu496cac6677899f1cc6918ba6fda91e0d_92848_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="275"
+		data-flex-basis="661px"
+	
+></p>
+<h2 id="索引">索引</h2>
+<p>按「数据结构」分类：B+tree索引、Hash索引、Full-text索引。<br>
+按「物理存储」分类：聚簇索引（主键索引）、二级索引（辅助索引）。<br>
+按「字段特性」分类：主键索引、唯一索引、普通索引、前缀索引。<br>
+按「字段个数」分类：单列索引、联合索引。
+<img src="../../p/mysql/image-6.png"
+	width="811"
+	height="421"
+	srcset="../../p/mysql/image-6_hu8d615367a43e868d6d45571715cd5c3f_140530_480x0_resize_box_3.png 480w, ../../p/mysql/image-6_hu8d615367a43e868d6d45571715cd5c3f_140530_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="192"
+		data-flex-basis="462px"
+	
+>
+<code>创建的主键索引和二级索引默认使用的是 B+Tree 索引。</code></p>
+<p>主键索引的 B+Tree 和二级索引的 B+Tree 区别如下：</p>
+<ul>
+<li>主键索引的 B+Tree 的叶子节点存放的是实际数据，所有完整的用户记录都存放在主键索引的 B+Tree 的叶子节点里；</li>
+<li>二级索引的 B+Tree 的叶子节点存放的是主键值，而不是实际数据。</li>
+</ul>
+<h3 id="b树">B+树</h3>
+<p>B+Tree 是一种多叉树，叶子节点才存放数据，非叶子节点只存放索引，而且每个节点里的数据是按主键顺序存放的。
+每一层父节点的索引值都会出现在下层子节点的索引值中，因此在叶子节点中，包括了所有的索引值信息，并且每一
+个叶子节点都有两个指针，分别指向下一个叶子节点和上一个叶子节点，形成一个双向链表。</p>
+<p>优点:<br>
+B+Tree 存储千万级的数据只需要 3-4 层高度就可以满足，这意味着从千万级的表查询目标数据最多需要 3-4 次磁盘 I/O，
+所以B+Tree 相比于 B 树和二叉树来说，最大的优势在于查询效率很高，因为即使在数据量很大的情况，查询一个数据的磁盘 I/O 依然维持在 3-4次。</p>
+<h3 id="回表">回表</h3>
+<p>如果我用 product_no 二级索引查询商品，如下查询语句：
+<code>select * from product where product_no = '0002';</code>
+会先检二级索引中的 B+Tree 的索引值（商品编码，product_no），找到对应的叶子节点，然后获取主键值，然后再通过主键索引中的 B+Tree 树查询到对应的叶子节点，然后获取整行数据。这个过程叫「回表」，也就是说要查两个 B+Tree 才能查到数据。</p>
+<h3 id="覆盖索引">覆盖索引</h3>
+<p>在二级索引的 B+Tree 就能查询到结果的过程就叫作「覆盖索引」，也就是只需要查一个 B+Tree 就能找到数据。</p>
+<h3 id="mysql什么使用b树而不适用b树">Mysql什么使用B+树而不适用B树</h3>
+<p>B+树只在叶子节点存储数据，而B树的非叶子节点也要存储数据，所以B+树的单个节点的数据量更小，在相同的磁盘I/O次数下，就更查询更多的节点。</p>
+<h3 id="为什么不适用hash索引">为什么不适用Hash索引</h3>
+<p>hash索引适合单个查询，不适用于进行范围查询</p>
+<h3 id="什么时候适用索引">什么时候适用索引？</h3>
+<ul>
+<li>字段有唯一限制的，比如商品编码</li>
+<li>经常用于<code>where</code>条件的</li>
+<li>经常用于<code>GROUP BY</code>和<code>ORDER BY</code>的字段。这样在查询的时候就不需要再去做一次排序，因为我们知道建立索引之后再B+树的记录是排序号的</li>
+</ul>
+<h3 id="有什么优化索引的方法">有什么优化索引的方法？</h3>
+<ul>
+<li>前缀索引优化；</li>
+<li>覆盖索引优化；</li>
+<li>主键索引最好是自增的</li>
+</ul>
+<p>InnoDB 创建主键索引默认为聚簇索引，数据被存放在了 B+Tree 的叶子节点上。也就是说，同一个叶子节点内的各个数据是按主键顺序存放的，因此，每当有一条新的数据插入时，数据库会根据主键将其插入到对应的叶子节点中。</p>
+<p>如果我们使用自增主键，插入一条新记录，都是追加操作，不需要重新移动数据，因此这种插入数据的方法效率非常高。</p>
+<p>如果我们使用非自增主键，每次插入主键的索引值都是随机的，因此每次插入新的数据时，就可能会插入到现有数据页中间的某个位置，这将不得不移动其它数据来满足新数据的插入,<code>通常将这种情况称为页分裂。页分裂还有可能会造成大量的内存碎片，导致索引结构不紧凑，从而影响查询效率。</code></p>
+<ul>
+<li>防止索引失效；</li>
+<li>索引最好设置为 NOT NULL</li>
+</ul>
+<p><img src="../../p/mysql/image-7.png"
+	width="711"
+	height="1061"
+	srcset="../../p/mysql/image-7_hu47d5a6eb22d93b301aec18d70c9e2b90_475278_480x0_resize_box_3.png 480w, ../../p/mysql/image-7_hu47d5a6eb22d93b301aec18d70c9e2b90_475278_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="67"
+		data-flex-basis="160px"
+	
+></p>
+<h2 id="事务">事务</h2>
+<h3 id="事务有哪些特性">事务有哪些特性</h3>
+<ul>
+<li>原子性</li>
+<li>一致性</li>
+<li>隔离性</li>
+<li>持久性</li>
+</ul>
+<h3 id="并行事务会引发什么问题">并行事务会引发什么问题？</h3>
+<ol>
+<li>脏读
+如果一个事务读到了另一个 未提交事务修改过的数据 ，就意味着发生了脏读</li>
+</ol>
+<p><img src="../../p/mysql/image-8.png"
+	width="1080"
+	height="420"
+	srcset="../../p/mysql/image-8_hu2afb5982b38389a88e30efd0c1845154_167513_480x0_resize_box_3.png 480w, ../../p/mysql/image-8_hu2afb5982b38389a88e30efd0c1845154_167513_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="257"
+		data-flex-basis="617px"
+	
+>
+2. 不可重复读
+在一个事务内多次读取同一个数据，如果出现前后两次读到的数据不一样的情况，就意味着发生了 不可重复读 现象。</p>
+<p><img src="../../p/mysql/image-9.png"
+	width="1080"
+	height="486"
+	srcset="../../p/mysql/image-9_hucd2c65c6df001b5ed48efa9aa0c7dd6c_184205_480x0_resize_box_3.png 480w, ../../p/mysql/image-9_hucd2c65c6df001b5ed48efa9aa0c7dd6c_184205_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="222"
+		data-flex-basis="533px"
+	
+>
+3. 幻读
+在一个事务内多次查询某个符合查询条件的 记录数量，如果出现前后两次查询到的记录数量不一样，就意味着发生了幻读现象</p>
+<p><img src="../../p/mysql/image-10.png"
+	width="1080"
+	height="312"
+	srcset="../../p/mysql/image-10_hu271e45d39cd8e401ae6dc0f326424794_179563_480x0_resize_box_3.png 480w, ../../p/mysql/image-10_hu271e45d39cd8e401ae6dc0f326424794_179563_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="346"
+		data-flex-basis="830px"
+	
+></p>
+<p>三者严重性：</p>
+<p><img src="../../p/mysql/image-11.png"
+	width="677"
+	height="140"
+	srcset="../../p/mysql/image-11_hufafa1e0dcc6a4a8ab8acbe875a8b54e4_58054_480x0_resize_box_3.png 480w, ../../p/mysql/image-11_hufafa1e0dcc6a4a8ab8acbe875a8b54e4_58054_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="alt text"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="483"
+		data-flex-basis="1160px"
+	
+></p>
+<h3 id="事务的隔离级别有哪些">事务的隔离级别有哪些？</h3>
+<ul>
+<li>读未提交：一个事务还没提交时，他做的变更就能被其他事务看到</li>
+<li>读已提交：一个事务提交后，他做的变更就能被其他事务看到</li>
+<li>可重复读：一个事务执行过程中看到的数据，一直跟这个事务启动时看到的数据是一致的，<code>Mysql InnoDB引擎的默认隔离级别</code></li>
+<li>串行化：会对记录加上锁，在多个事务对这条记录进行读写操作是，如果发生了冲突的时候，后访问的事务必须等待前一个事务实行完成。</li>
+</ul>
+<h4 id="四种隔离级别具体是如何实现的呢">四种隔离级别具体是如何实现的呢</h4>
+<ul>
+<li>对于「读未提交」隔离级别的事务来说，因为可以读到未提交事务修改的数据，所以直接读取最新的数据就好了</li>
+<li>对于「串行化」隔离级别的事务来说，通过加读写锁的方式来避免并行访问</li>
+<li>对于「读提交」和「可重复读」隔离级别的事务来说，它们是通过 Read View 来实现的，它们的区别在于创建 Read View 的时机不同，大家可以把 Read View 理解成一个数据快照，就像相机拍照那样，定格某一时刻的风景。「读提交」隔离级别是在「每个语句执行前」都会重新生成一个 Read View，而「可重复读」隔离级别是「启动事务时」生成一个 Read View，然后整个事务期间都在用这个 Read View。</li>
+</ul>
+<p>启动事务:</p>
+<ul>
+<li>执行了 <code>begin/start transaction</code> 命令后，并不代表事务启动了。只有在执行这个命令后，执行了第一条 select 语句，才是事务真正启动的时机；</li>
+<li>执行了 <code>start transaction with consistent snapshot</code> 命令，就会马上启动事务。</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="../../tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="../../p/mongodb%E5%AD%A6%E4%B9%A0/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="../../image.png" loading="lazy" data-key="" data-hash="/image.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">mongodb学习</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="../../p/100gomistakes/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">100GoMistakes</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="../../p/solidity%E5%BC%82%E5%B8%B8%E8%AE%B0%E5%BD%95/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">solidity异常记录</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="../../p/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%A1%E8%AE%A1/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">智能合约审计</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="../../p/uniswap/">
+        
+        
+            <div class="article-image">
+                <img src="../../p/uniswap/image.78ea7c20d12d123b051610b7af6e8593.png" 
+                        width="558" 
+                        height="1395" 
+                        loading="lazy"
+                        alt="Featured image of post Uniswap"
+                        
+                        data-hash="md5-eOp8INEtEjsFFhC3r26Fkw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Uniswap</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src='//unpkg.com/@waline/client@v2/dist/waline.js'></script>
+<link href='//unpkg.com/@waline/client@v2/dist/waline.css' rel='stylesheet'/>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+        --waline-font-size: var(--article-font-size);
+    }
+    .waline-container .wl-count {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    Waline.init({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/tieba","https://cdn.jsdelivr.net/gh/walinejs/emojis/qq","https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/alus","https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"屑莹","placeholder":"网友评论区."},"pageview":true,"requiredMeta":["name","email"],"serverURL":"https://waline-1-f2033612.deta.app/","visitor":false});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2026 吴生有涯
+    </section>
+
+    
+	
+	<script defer src="https://busuanzi.9420.ltd/js"></script>
+        本文总阅读量 <span id="busuanzi_page_pv"></span> 次
+        本文总访客量 <span id="busuanzi_page_uv"></span> 人
+        本站总访问量 <span id="busuanzi_site_pv"></span> 次
+        本站总访客数 <span id="busuanzi_site_uv"></span> 人
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="../../ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
